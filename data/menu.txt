@@ -2,88 +2,152 @@
 # Boş bıraktığın alanlar ve hiç doldurmadığın günler uygulamada görünmez.
 # '#' ile başlayan satırlar yok sayılır.
 #
-# DOLU ÖRNEK:
-#   Tarih: 19.10.2026
-#   Çorba: Mercimek Çorbası
-#   Ana Yemek: Orman Kebabı (Bahçeköy Yerleşkesi)
-#   Yan Yemek: Pirinç Pilavı
-#   Ek: Ayran
-#   Kalori: 1120
-#
 # - Parantez içine yazdığın şey yemeğin altında küçük bir not olarak görünür.
 # - Bir kategoride birden fazla yemek varsa o satırı kopyalayıp alt alta yaz.
-#   (örnek: iki tane "Yan Yemek:" satırı)
 # - Kalori kısmına sadece sayıyı yazman yeterli.
+#
+# 28.10.2026: İDARİ İZİN
+# 29.10.2026: 29 EKİM CUMHURİYET BAYRAMI
+
+Tarih: 01.10.2026
+Çorba: Kremalı Mantar Çorbası
+Ana Yemek: Dana Kızartma
+Yan Yemek: Bademli Pirinç Pilavı
+Ek: Rumeli Tulumbası
+Kalori: 1300
+
+Tarih: 02.10.2026
+Çorba: Mercimek Çorbası
+Ana Yemek: Patates Oturtma
+Yan Yemek: Yoğurtlu Ispanak
+Ek: Muz
+Kalori: 935
+
+Tarih: 05.10.2026
+Çorba: Prenses Çorbası
+Ana Yemek: Türlü Yemeği
+Yan Yemek: İçli Köfte +kornişon turşu
+Ek: Ayran
+Kalori: 890
+
+Tarih: 06.10.2026
+Çorba: Yayla Çorbası
+Ana Yemek: Rosto Köfte Püreli
+Yan Yemek: Zeytinyağlı Barbunya
+Ek: Bülbül Yuvası
+Kalori: 1260
+
+Tarih: 07.10.2026
+Çorba: Kaşarlı Domates Çorbası
+Ana Yemek: Et Sote
+Yan Yemek: Arpa Şehriyeli Pirinç Pilavı
+Ek: Havuç Tarator
+Kalori: 1045
+
+Tarih: 08.10.2026
+Çorba: Şehriye Çorbası
+Ana Yemek: Fırın Piliç But
+Yan Yemek: Yoğurtlu Mantı
+Ek: Armut
+Kalori: 1120
+
+Tarih: 09.10.2026
+Çorba: Ezogelin Çorbası
+Ana Yemek: Patlıcan Musakka
+Yan Yemek: Mısırlı Pirinç Pilavı
+Ek: Cacık
+Kalori: 985
+
+Tarih: 12.10.2026
+Çorba: Düğün Çorbası
+Ana Yemek: Pastırmalı Kuru Fasulye
+Yan Yemek: Pirinç Pilavı
+Ek: Karışık Turşu
+Kalori: 1060
+
+Tarih: 13.10.2026
+Çorba: Sebze Çorbası
+Ana Yemek: Çoban Kavurma+Pilav Garni (Piliç Topkapı - Bahçeköy ve Sultangazi Yerleşkeleri)
+Yan Yemek: Zeytinyağlı Mantar Sote
+Ek: Fıstıklı Baklava
+Kalori: 1280
+
+Tarih: 14.10.2026
+Çorba: Mercimek Çorbası
+Ana Yemek: Tavuk Külbastı (Kağıt Kebabı - Bahçeköy ve Sultangazi Yerleşkeleri)
+Yan Yemek: Cevizli Erişte (Peynirli Makarna - Bahçeköy ve Sultangazi Yerleşkeleri)
+Ek: Yoğurt
+Kalori: 1115
+
+Tarih: 15.10.2026
+Çorba: Şehriye Çorbası
+Ana Yemek: Bezelye Yemeği
+Yan Yemek: Buhara Pilavı
+Ek: Fındıklı Şekerpare
+Kalori: 1235
+
+Tarih: 16.10.2026
+Çorba: Mantar Çorbası
+Ana Yemek: Soslu Misket Köfte - Patates Garnili
+Yan Yemek: Peynirli Makarna (Cevizli Erişte - Bahçeköy ve Sultangazi Yerleşkeleri)
+Ek: Yoğurtlu Kapya
+Kalori: 1150
 
 Tarih: 19.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Tavuk Suyu Çorbası
+Ana Yemek: Nohut Yemeği
+Yan Yemek: Pirinç Pilavı
+Ek: Yoğurt
+Kalori: 910
 
 Tarih: 20.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Ezogelin Çorbası
+Ana Yemek: Tavuk Külbastı - Patates Garnili
+Yan Yemek: Zeytinyağlı Pırasa
+Ek: Mandalina
+Kalori: 965
 
 Tarih: 21.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Mercimek Çorbası
+Ana Yemek: Et Döner +Patates Garni
+Yan Yemek: Şehriyeli Pirinç Pilavı
+Ek: Ayran
+Kalori: 1090
 
 Tarih: 22.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Brokoli Çorbası
+Ana Yemek: Kayseri Köfte
+Yan Yemek: Fırın Makarna
+Ek: Fıstıklı Kadayıf
+Kalori: 1280
 
 Tarih: 23.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Tarhana Çorbası
+Ana Yemek: Kıymalı Kabak Dolması - yoğurt garnili
+Yan Yemek: Peynirli Su Böreği
+Ek: Meşrubat - Sade Gazoz
+Kalori: 990
 
 Tarih: 26.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Düğün Çorbası
+Ana Yemek: Taze Fasulye Yemeği
+Yan Yemek: Soslu Makarna
+Ek: Muz
+Kalori: 895
 
 Tarih: 27.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
-
-Tarih: 28.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
-
-Tarih: 29.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Elvan Kız Çorba
+Ana Yemek: Çoban Kavurma
+Yan Yemek: Pirinç Pilavı
+Ek: Keşkül
+Kalori: 1160
 
 Tarih: 30.10.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Domates Çorbası
+Ana Yemek: Kuru Köfte - köz. Kapya biber garni
+Yan Yemek: Bademli Pirinç Pilavı
+Ek: Meşrubat - Sade Gazoz
+Kalori: 920
 
 Tarih: 02.11.2026
 Çorba: 
@@ -167,5 +231,4 @@ Tarih: 17.11.2026
 Ana Yemek: 
 Yan Yemek: 
 Ek: 
-Kalori: 
-
+Kalori:
