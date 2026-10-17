@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>İÜC Yemek</title>
+<title>İÜC Yemek — Oyunlu Demo</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -11,13 +11,52 @@
 <meta name="theme-color" content="#fff4f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1d1420" media="(prefers-color-scheme: dark)">
 <meta name="format-detection" content="telephone=no">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Fraunces:ital,wght@1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+:root{--bg1:#fff4f1;--bg2:#ffe1e9;--bgc:#fff0ee;--card:rgba(255,255,255,.86);--text:#3b2a30;--muted:#a0848d;--accent:#e8577d;--accent2:#ff8a65;--soft:rgba(232,87,125,.13);--shadow:0 8px 24px rgba(232,87,125,.14);--sep:rgba(232,87,125,.15);
+--c1:#ffe9c9;--c2:#ffd8da;--c3:#e2f4d3;--c4:#e7ddff;--banner:#fff0c9;--bannert:#8a5a00;--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#1d1420;--bg2:#2c1a2e;--bgc:#1d1420;--card:rgba(52,34,56,.88);--text:#fbeef2;--muted:#b79aa6;--accent:#ff7a9c;--accent2:#ffa07a;--soft:rgba(255,122,156,.17);--shadow:0 8px 24px rgba(0,0,0,.4);--sep:rgba(255,122,156,.2);--c1:rgba(255,190,100,.2);--c2:rgba(255,120,130,.2);--c3:rgba(140,220,110,.18);--c4:rgba(170,140,255,.22);--banner:#3b2d10;--bannert:#ffd98a}}
+:root[data-theme="dark"]{--bg1:#1d1420;--bg2:#2c1a2e;--bgc:#1d1420;--card:rgba(52,34,56,.88);--text:#fbeef2;--muted:#b79aa6;--accent:#ff7a9c;--accent2:#ffa07a;--soft:rgba(255,122,156,.17);--shadow:0 8px 24px rgba(0,0,0,.4);--sep:rgba(255,122,156,.2);--c1:rgba(255,190,100,.2);--c2:rgba(255,120,130,.2);--c3:rgba(140,220,110,.18);--c4:rgba(170,140,255,.22);--banner:#3b2d10;--bannert:#ffd98a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background-color:var(--bgc);background-image:radial-gradient(circle at 85% -5%,var(--bg2),transparent 55%),linear-gradient(170deg,var(--bg1),var(--bg2));background-attachment:fixed;color:var(--text);
+font:16px/1.4 "Nunito",ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-user-select:none;user-select:none;padding-bottom:90px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}[hidden]{display:none!important}
+.banner{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 14px 0;padding:11px 15px;border-radius:16px;background:var(--banner);color:var(--bannert);font-size:13.5px;font-weight:700;box-shadow:var(--shadow)}
+.banner button{color:var(--accent);font-weight:800;white-space:nowrap}
+.top{padding:18px 18px 6px}.title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+h1{margin:0;font:italic 700 31px/1.1 "Fraunces",Georgia,"Times New Roman",serif;letter-spacing:-.3px}
+.heart{display:inline-block;animation:beat 1.8s ease-in-out infinite}@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.sub{color:var(--muted);font-size:13px;font-weight:700;background:var(--card);padding:5px 11px;border-radius:99px;box-shadow:var(--shadow)}
+.week{display:flex;align-items:center;gap:4px;margin-top:16px}
+.arrow{width:30px;height:46px;font-size:28px;line-height:1;color:var(--accent);font-weight:800}.arrow:disabled{opacity:.2}
+.strip{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.day{display:flex;flex-direction:column;align-items:center;padding:9px 0 8px;border-radius:20px;background:var(--card);box-shadow:var(--shadow);position:relative;transition:transform .12s,background .2s}
+.day:active{transform:scale(.94)}.day small{font-size:11.5px;color:var(--muted);font-weight:800;letter-spacing:.3px}.day b{font-size:19px;font-weight:800}
+.day.empty-day{opacity:.5}.day.today b{color:var(--accent)}
+.day.sel{background:linear-gradient(145deg,var(--accent),var(--accent2));box-shadow:0 8px 20px rgba(232,87,125,.38)}.day.sel small,.day.sel b{color:#fff}
+.day.today:not(.sel)::after{content:"";position:absolute;bottom:3px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+main{padding:0 18px;min-height:60vh;touch-action:pan-y}.strip{touch-action:pan-y}
+.day-head{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px;gap:8px}
+h2{margin:0;font-size:21px;font-weight:800}
+.pill{background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;font-weight:800;font-size:13px;padding:6px 13px;border-radius:99px;white-space:nowrap;box-shadow:0 6px 14px rgba(232,87,125,.3)}
+.group{display:flex;flex-direction:column;gap:11px}
+.item{display:flex;align-items:center;gap:14px;padding:13px 15px;border-radius:24px;background:var(--card);box-shadow:var(--shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ico{width:50px;height:50px;flex:none;border-radius:18px;background:var(--c1);display:grid;place-items:center;font-size:26px}
+.item[data-cat="Ana Yemek"] .ico{background:var(--c2)}.item[data-cat="Yan Yemek"] .ico{background:var(--c3)}.item[data-cat="Tamamlayıcı"] .ico{background:var(--c4)}
+.info{min-width:0;flex:1}.cat{font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);font-weight:800}
+.name{font-size:17px;font-weight:700;overflow-wrap:anywhere}
+.badge{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:700;color:var(--accent);background:var(--soft);padding:3px 10px;border-radius:99px}
+.empty{text-align:center;color:var(--muted);padding:44px 10px;font-weight:700}
+.foot{text-align:center;color:var(--muted);font-size:12px;font-weight:600;margin:22px 0 0}
+.install{position:fixed;left:14px;right:14px;bottom:calc(var(--sab) + 12px);z-index:10;display:flex;gap:10px;align-items:center;padding:13px 15px;border-radius:20px;background:var(--card);box-shadow:var(--shadow);font-size:13.5px}
+.install div{flex:1;display:flex;flex-direction:column;gap:2px}.install span{color:var(--muted)}.install button{width:30px;height:30px;border-radius:50%;background:var(--soft);color:var(--accent)}
+.slide-l{animation:sl .24s ease-out}.slide-r{animation:sr .24s ease-out}
+@keyframes sl{from{transform:translateX(40px);opacity:.15}to{transform:none;opacity:1}}@keyframes sr{from{transform:translateX(-40px);opacity:.15}to{transform:none;opacity:1}}
+</style>
 </head>
 <body>
 <div id="banner" class="banner" hidden>
@@ -51,7 +90,561 @@
   <div><strong>Ana Ekrana Ekle</strong><span>Tam ekran kullanmak için <b>Paylaş</b> <i>⎙</i> → <b>Ana Ekrana Ekle</b>’ye dokunun.</span></div>
   <button id="installClose" type="button" aria-label="Kapat">✕</button>
 </aside>
-<script src="parse.js"></script>
-<script src="app.js"></script>
+<script>window.__MENU__="# NASIL DOLDURULUR: Her gün için aşağıdaki boş alanları doldur. İki noktadan (:) sonrasına yaz.\n# Boş bıraktığın alanlar ve hiç doldurmadığın günler uygulamada görünmez.\n# '#' ile başlayan satırlar yok sayılır.\n#\n# - Parantez içine yazdığın şey yemeğin altında küçük bir not olarak görünür.\n# - Bir kategoride birden fazla yemek varsa o satırı kopyalayıp alt alta yaz.\n# - Kalori kısmına sadece sayıyı yazman yeterli.\n#\n# 28.10.2026: İDARİ İZİN\n# 29.10.2026: 29 EKİM CUMHURİYET BAYRAMI\n\nTarih: 01.10.2026\nÇorba: Kremalı Mantar Çorbası\nAna Yemek: Dana Kızartma\nYan Yemek: Bademli Pirinç Pilavı\nEk: Rumeli Tulumbası\nKalori: 1300\n\nTarih: 02.10.2026\nÇorba: Mercimek Çorbası\nAna Yemek: Patates Oturtma\nYan Yemek: Yoğurtlu Ispanak\nEk: Muz\nKalori: 935\n\nTarih: 05.10.2026\nÇorba: Prenses Çorbası\nAna Yemek: Türlü Yemeği\nYan Yemek: İçli Köfte +kornişon turşu\nEk: Ayran\nKalori: 890\n\nTarih: 06.10.2026\nÇorba: Yayla Çorbası\nAna Yemek: Rosto Köfte Püreli\nYan Yemek: Zeytinyağlı Barbunya\nEk: Bülbül Yuvası\nKalori: 1260\n\nTarih: 07.10.2026\nÇorba: Kaşarlı Domates Çorbası\nAna Yemek: Et Sote\nYan Yemek: Arpa Şehriyeli Pirinç Pilavı\nEk: Havuç Tarator\nKalori: 1045\n\nTarih: 08.10.2026\nÇorba: Şehriye Çorbası\nAna Yemek: Fırın Piliç But\nYan Yemek: Yoğurtlu Mantı\nEk: Armut\nKalori: 1120\n\nTarih: 09.10.2026\nÇorba: Ezogelin Çorbası\nAna Yemek: Patlıcan Musakka\nYan Yemek: Mısırlı Pirinç Pilavı\nEk: Cacık\nKalori: 985\n\nTarih: 12.10.2026\nÇorba: Düğün Çorbası\nAna Yemek: Pastırmalı Kuru Fasulye\nYan Yemek: Pirinç Pilavı\nEk: Karışık Turşu\nKalori: 1060\n\nTarih: 13.10.2026\nÇorba: Sebze Çorbası\nAna Yemek: Çoban Kavurma+Pilav Garni (Piliç Topkapı - Bahçeköy ve Sultangazi Yerleşkeleri)\nYan Yemek: Zeytinyağlı Mantar Sote\nEk: Fıstıklı Baklava\nKalori: 1280\n\nTarih: 14.10.2026\nÇorba: Mercimek Çorbası\nAna Yemek: Tavuk Külbastı (Kağıt Kebabı - Bahçeköy ve Sultangazi Yerleşkeleri)\nYan Yemek: Cevizli Erişte (Peynirli Makarna - Bahçeköy ve Sultangazi Yerleşkeleri)\nEk: Yoğurt\nKalori: 1115\n\nTarih: 15.10.2026\nÇorba: Şehriye Çorbası\nAna Yemek: Bezelye Yemeği\nYan Yemek: Buhara Pilavı\nEk: Fındıklı Şekerpare\nKalori: 1235\n\nTarih: 16.10.2026\nÇorba: Mantar Çorbası\nAna Yemek: Soslu Misket Köfte - Patates Garnili\nYan Yemek: Peynirli Makarna (Cevizli Erişte - Bahçeköy ve Sultangazi Yerleşkeleri)\nEk: Yoğurtlu Kapya\nKalori: 1150\n\nTarih: 19.10.2026\nÇorba: Tavuk Suyu Çorbası\nAna Yemek: Nohut Yemeği\nYan Yemek: Pirinç Pilavı\nEk: Yoğurt\nKalori: 910\n\nTarih: 20.10.2026\nÇorba: Ezogelin Çorbası\nAna Yemek: Tavuk Külbastı - Patates Garnili\nYan Yemek: Zeytinyağlı Pırasa\nEk: Mandalina\nKalori: 965\n\nTarih: 21.10.2026\nÇorba: Mercimek Çorbası\nAna Yemek: Et Döner +Patates Garni\nYan Yemek: Şehriyeli Pirinç Pilavı\nEk: Ayran\nKalori: 1090\n\nTarih: 22.10.2026\nÇorba: Brokoli Çorbası\nAna Yemek: Kayseri Köfte\nYan Yemek: Fırın Makarna\nEk: Fıstıklı Kadayıf\nKalori: 1280\n\nTarih: 23.10.2026\nÇorba: Tarhana Çorbası\nAna Yemek: Kıymalı Kabak Dolması - yoğurt garnili\nYan Yemek: Peynirli Su Böreği\nEk: Meşrubat - Sade Gazoz\nKalori: 990\n\nTarih: 26.10.2026\nÇorba: Düğün Çorbası\nAna Yemek: Taze Fasulye Yemeği\nYan Yemek: Soslu Makarna\nEk: Muz\nKalori: 895\n\nTarih: 27.10.2026\nÇorba: Elvan Kız Çorba\nAna Yemek: Çoban Kavurma\nYan Yemek: Pirinç Pilavı\nEk: Keşkül\nKalori: 1160\n\nTarih: 30.10.2026\nÇorba: Domates Çorbası\nAna Yemek: Kuru Köfte - köz. Kapya biber garni\nYan Yemek: Bademli Pirinç Pilavı\nEk: Meşrubat - Sade Gazoz\nKalori: 920\n\nTarih: 02.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 03.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 04.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 05.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 06.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 09.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 10.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 11.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 12.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 13.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 16.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\nTarih: 17.11.2026\nÇorba: \nAna Yemek: \nYan Yemek: \nEk: \nKalori: \n\n";var _f=window.fetch;window.fetch=function(u,o){if(String(u).indexOf('data/menu.txt')>-1)return Promise.resolve({ok:true,status:200,text:function(){return Promise.resolve(window.__MENU__)},headers:{get:function(){return null}}});return _f.apply(this,arguments)};</script>
+<script>
+'use strict';
+// Basit form ayrıştırıcı: "Etiket: değer" satırları. Tarih satırı yeni gün başlatır.
+const DATE_RE = /(\d{1,2})[./-](\d{1,2})[./-](\d{4})/;
+const DAYS_TR = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+const LABELS = { 'çorba': 'Çorba', 'ana yemek': 'Ana Yemek', 'yan yemek': 'Yan Yemek', 'ek': 'Tamamlayıcı' };
+const pad = (n) => String(n).padStart(2, '0');
+const clean = (s) => String(s || '').replace(/[\u00a0\u200b\ufeff]/g, ' ').replace(/\s+/g, ' ').trim();
+
+function dayNameOf(dateStr) {
+  const [d, m, y] = dateStr.split('.').map(Number);
+  return DAYS_TR[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+}
+
+// "Orman Kebabı (Bahçeköy Yerleşkesi)" -> { name: "Orman Kebabı", note: "Bahçeköy Yerleşkesi" }
+function splitNote(raw) {
+  const notes = [];
+  const name = clean(raw.replace(/\(([^)]*)\)?/g, (_, n) => { if (clean(n)) notes.push(clean(n)); return ' '; }));
+  return { name, note: notes.join(' · ') };
+}
+
+function parseMenu(text) {
+  const menus = {};
+  let cur = null;
+  const finish = () => { if (cur && cur.meals.length) menus[cur.date] = cur; cur = null; };
+  for (const raw of String(text).split(/\r?\n/)) {
+    const line = clean(raw);
+    if (!line || line.startsWith('#')) continue;
+    const m = line.match(/^([^:]+):\s*(.*)$/);
+    if (!m) continue;
+    const key = m[1].trim().toLocaleLowerCase('tr'), val = clean(m[2]);
+    if (key === 'tarih') {
+      finish();
+      const d = val.match(DATE_RE);
+      if (d) { const date = `${pad(d[1])}.${pad(d[2])}.${d[3]}`; cur = { date, dayName: dayNameOf(date), meals: [], calories: '' }; }
+    } else if (cur && key === 'kalori') {
+      const n = parseInt(val.replace(/\D/g, ''), 10);
+      cur.calories = n > 0 ? `${n} Kalori` : '';
+    } else if (cur && LABELS[key] && val) {
+      const { name, note } = splitNote(val);
+      if (name) cur.meals.push({ name, category: LABELS[key], note });
+    }
+  }
+  finish();
+  return menus;
+}
+
+const api = { parseMenu, dayNameOf };
+if (typeof module !== 'undefined' && module.exports) module.exports = api; else window.MenuParse = api;
+</script>
+<script>
+'use strict';
+(() => {
+  const P = window.MenuParse;
+  const $ = (id) => document.getElementById(id);
+  const TZ = 'Europe/Istanbul';
+  const CLOSE_MIN = 14 * 60 + 30;
+  const DOW = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum'];
+  const DAYS = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+  const MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+  const CATS = [['Çorba', 'Çorba'], ['Ana Yemek', 'Ana Yemek'], ['Yan Yemek', 'Yan Yemek'], ['Tamamlayıcı', 'Ek']];
+  const SRC = 'data/menu.txt';
+  const LS = { data: 'iuc-menu-text', hint: 'iuc-install-dismissed' };
+
+  let loading = true, loadInfo = '', menus = {}, updated = null, rawText = null, selected = null, weekStart = null, rerouted = false;
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const toKey = (t) => { const d = new Date(t); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`; };
+  const toTime = (k) => { const [d, m, y] = k.split('.').map(Number); return Date.UTC(y, m - 1, d); };
+  const addDays = (k, n) => toKey(toTime(k) + n * 86400000);
+  const dow = (k) => new Date(toTime(k)).getUTCDay();
+  const mondayOf = (k) => addDays(k, -((dow(k) + 6) % 7));
+  const store = (fn) => { try { return fn(); } catch { return null; } };
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const longDate = (k) => { const [d, m] = k.split('.').map(Number); return `${d} ${MONTHS[m - 1]}`; };
+  const keys = () => Object.keys(menus).sort((a, b) => toTime(a) - toTime(b));
+  const nextWeekday = (k) => { let n = addDays(k, 1); while ([0, 6].includes(dow(n))) n = addDays(n, 1); return n; };
+
+  function istanbulNow() {
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: TZ, hour12: false, year: 'numeric', month: '2-digit',
+      day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+    return { key: `${p.day}.${p.month}.${p.year}`, minutes: (+p.hour % 24) * 60 + +p.minute };
+  }
+
+  function initialSelection() {
+    const { key: today, minutes } = istanbulNow();
+    const d = dow(today);
+    let target = today, reason = '';
+    if (d === 0 || d === 6) { target = nextWeekday(today); reason = 'Hafta sonu • Pazartesi menüsü gösteriliyor'; }
+    else if (minutes >= CLOSE_MIN) {
+      target = nextWeekday(today);
+      reason = 'Bugünün yemek saati geçti • ' + (d === 5 ? 'Pazartesi' : 'Yarının') + ' menüsü gösteriliyor';
+    }
+    rerouted = !!reason;
+    $('bannerText').textContent = reason;
+    $('bannerBtn').hidden = !menus[today] || d === 0 || d === 6;
+    selected = target; weekStart = mondayOf(target);
+  }
+
+  function icon(n) {
+    const s = n.toLowerCase();
+    const map = [[/çorba|şorba/, '🥣'], [/balık|hamsi|somon|levrek/, '🐟'], [/tavuk|piliç|şnitzel/, '🍗'], [/köfte|kebap|kebab|et\b|etli|kıyma|dana|kuzu|sote|güveç|döner/, '🥩'],
+      [/pilav|bulgur|pirinç/, '🍚'], [/makarna|spagetti|erişte|noodle|mantı/, '🍝'], [/patates|püre/, '🥔'], [/salata|cacık/, '🥗'],
+      [/ayran|yoğurt|süt\b/, '🥛'], [/tatlı|sütlaç|helva|baklava|puding|kek|revani/, '🍮'], [/meyve|elma|portakal|mandalina|muz/, '🍎'],
+      [/nohut|fasulye|mercimek|barbunya|kuru/, '🫘'], [/börek|poğaça|pide|lahmacun/, '🥟'], [/sebze|ıspanak|kabak|patlıcan|biber|bezelye|enginar/, '🥬'], [/ekmek/, '🍞']];
+    for (const [re, e] of map) if (re.test(s)) return e;
+    return '🍽️';
+  }
+
+  function renderStrip() {
+    const today = istanbulNow().key, strip = $('strip');
+    strip.replaceChildren();
+    DOW.forEach((label, i) => {
+      const k = addDays(weekStart, i);
+      const b = el('button', 'day' + (k === selected ? ' sel' : '') + (k === today ? ' today' : '') + (menus[k] ? '' : ' empty-day'));
+      b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', k === selected);
+      b.append(el('small', '', label), el('b', '', String(+k.slice(0, 2))));
+      b.onclick = () => { selected = k; rerouted = false; render(); };
+      strip.append(b);
+    });
+    $('prevWeek').disabled = !weekOk(-1);
+    $('nextWeek').disabled = !weekOk(1);
+  }
+
+  function emptyMessage() {
+    if (typeof location !== 'undefined' && location.protocol === 'file:') return 'Sayfa dosyadan açılmış, menü okunamaz. Proje klasöründe "npx serve" çalıştırıp çıkan adresi aç.';
+    if (rawText == null) return loading ? 'Yükleniyor…' : `Menü yüklenemedi (${loadInfo || 'bilinmeyen hata'}).`;
+    if (/^(<{7}|>{7})/m.test(rawText)) return 'data/menu.txt içinde Git çakışma işaretleri (<<<<<<<) var, temizlenmeli.';
+    if (!keys().length) return `menu.txt okundu ama dolu gün bulunamadı (${(rawText.match(/^\s*Tarih:/gim) || []).length} tarih satırı). Yemekleri iki noktadan sonra yaz.`;
+    return 'Bu gün için menü yayınlanmadı.';
+  }
+
+  function renderMenu() {
+    const m = menus[selected], list = $('list');
+    list.replaceChildren();
+    $('dayTitle').textContent = `${longDate(selected)} ${DAYS[dow(selected)]}`;
+    $('kcal').hidden = !(m && m.calories);
+    if (m && m.calories) $('kcal').textContent = `🔥 ${m.calories}`;
+    $('empty').hidden = !!m; list.hidden = !m;
+    if (!m) {
+      $('empty').textContent = emptyMessage();
+      return;
+    }
+    for (const meal of m.meals) {
+      const row = el('div', 'item'), info = el('div', 'info'); row.setAttribute('data-cat', meal.category);
+      const cat = CATS.find((c) => c[0] === meal.category);
+      info.append(el('div', 'cat', cat ? cat[1] : meal.category), el('div', 'name', meal.name));
+      if (meal.note) info.append(el('span', 'badge', `📍 ${meal.note}`));
+      row.append(el('div', 'ico', icon(meal.name)), info);
+      list.append(row);
+    }
+  }
+
+  function render() {
+    $('banner').hidden = !(rerouted && selected !== istanbulNow().key);
+    $('todayLabel').textContent = longDate(istanbulNow().key);
+    renderStrip(); renderMenu();
+    const parts = [];
+    if (updated) parts.push('Menü güncellendi: ' + new Date(updated).toLocaleString('tr-TR', { timeZone: TZ, day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }));
+    if (keys().length) parts.push(`${keys().length} gün`);
+    $('foot').textContent = parts.join(' · ');
+  }
+
+  /* ---------- Gezinme ---------- */
+  const firstInWeek = (mon) => { for (let i = 0; i < 5; i++) if (menus[addDays(mon, i)]) return addDays(mon, i); return mon; };
+  function bounds() { const k = keys(); return k.length ? [toTime(k[0]), toTime(k[k.length - 1])] : null; }
+  function weekOk(dir) {
+    const b = bounds(); if (!b) return true;
+    const t = toTime(addDays(weekStart, 7 * dir));
+    return t + 4 * 86400000 >= b[0] && t <= b[1];
+  }
+  function stepWeek(dir) {
+    if (!weekOk(dir)) return false;
+    weekStart = addDays(weekStart, 7 * dir); selected = firstInWeek(weekStart); rerouted = false; render(); return true;
+  }
+  function stepDay(dir) {
+    const b = bounds(); if (!b) return false;
+    let n = selected;
+    do { n = addDays(n, dir); } while ([0, 6].includes(dow(n)));
+    if (toTime(n) < b[0] || toTime(n) > b[1]) return false;
+    selected = n; weekStart = mondayOf(n); rerouted = false; render(); return true;
+  }
+  $('prevWeek').onclick = () => stepWeek(-1);
+  $('nextWeek').onclick = () => stepWeek(1);
+
+  // Parmakla (veya fareyle) kaydırma
+  let swipedAt = 0;
+  document.addEventListener('click', (e) => { if (Date.now() - swipedAt < 350) { e.stopPropagation(); e.preventDefault(); } }, true);
+
+  function makeSwipeable(box, onSwipe) {
+    let x0 = 0, y0 = 0, t0 = 0, dx = 0, dir = null, down = false;
+    const slide = (cls) => { box.classList.remove('slide-l', 'slide-r'); void box.offsetWidth; box.classList.add(cls); };
+    const start = (x, y) => { down = true; x0 = x; y0 = y; t0 = Date.now(); dx = 0; dir = null; box.style.transition = 'none'; };
+    const move = (x, y, ev) => {
+      if (!down) return;
+      const mx = x - x0, my = y - y0;
+      if (dir === null && (Math.abs(mx) > 6 || Math.abs(my) > 6)) dir = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+      if (dir === 'x') {
+        dx = mx; box.style.transform = `translateX(${dx * 0.35}px)`;
+        if (ev && ev.cancelable) ev.preventDefault(); // yatay harekette sayfa kaymasın
+      }
+    };
+    const end = () => {
+      if (!down) return;
+      down = false;
+      box.style.transition = 'transform .18s'; box.style.transform = '';
+      const fast = Math.abs(dx) > 25 && Math.abs(dx) / Math.max(1, Date.now() - t0) > 0.4; // hızlı fiske
+      if (dir === 'x' && Math.abs(dx) > 8) swipedAt = Date.now();
+      if (dir === 'x' && (Math.abs(dx) > 45 || fast) && onSwipe(dx < 0 ? 1 : -1)) slide(dx < 0 ? 'slide-l' : 'slide-r');
+      dir = null;
+    };
+    // Dokunmatik ekran
+    box.addEventListener('touchstart', (e) => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY); else down = false; }, { passive: true });
+    box.addEventListener('touchmove', (e) => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
+    box.addEventListener('touchend', end);
+    box.addEventListener('touchcancel', end);
+    // Fare (bilgisayarda denemek için)
+    box.addEventListener('mousedown', (e) => { if (e.button === 0) start(e.clientX, e.clientY); });
+    document.addEventListener('mousemove', (e) => move(e.clientX, e.clientY));
+    document.addEventListener('mouseup', end);
+  }
+  makeSwipeable(document.querySelector('main'), stepDay);   // menü alanı: gün gün
+  makeSwipeable($('strip'), stepWeek);                       // gün şeridi: hafta hafta
+  $('bannerBtn').onclick = () => { selected = istanbulNow().key; weekStart = mondayOf(selected); rerouted = false; render(); };
+
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS && !window.navigator.standalone && !store(() => localStorage.getItem(LS.hint))) 
+  $('installClose').onclick = () => { $('install').hidden = true; store(() => localStorage.setItem(LS.hint, '1')); };
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) { initialSelection(); render(); load(); }
+  });
+
+  const parseText = (t) => P.parseMenu(t);
+
+  function apply(text, modified, first) {
+    rawText = text; menus = parseText(text); updated = modified || null;
+    if (first || !menus[selected]) initialSelection();
+    render();
+  }
+
+  async function load() {
+    // 1) Anında: son kaydedilen kopya
+    const c = store(() => JSON.parse(localStorage.getItem(LS.data)));
+    if (c && typeof c.text === 'string') apply(c.text, c.modified, true); else { initialSelection(); render(); }
+    // 2) Güncel dosya (SW: önce ağ, çevrimdışıysa önbellek)
+    try {
+      const res = await fetch(SRC, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      const modified = res.headers.get('last-modified') ? new Date(res.headers.get('last-modified')).toISOString() : (c && c.modified) || null;
+      if (!c || c.text !== text) {
+        store(() => localStorage.setItem(LS.data, JSON.stringify({ text, modified })));
+        apply(text, modified, !c);
+      } else if (modified !== c.modified) { updated = modified; render(); }
+    } catch (e) { loadInfo = (e && e.message) || String(e); }
+    loading = false; render();
+  }
+
+  if ('serviceWorker' in navigator) {
+    // Yeni sürüm devreye girince sayfayı bir kez yenile (ilk kurulumda yenileme yok)
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+  load();
+})();
+</script>
+<script>
+'use strict';
+// Pixel Patlat: bir mini oyun. Kendi arayüzünü ve stilini kendisi ekler.
+(() => {
+  const C = { r: '#ff5a7a', p: '#ffb3c7', y: '#ffd54a', g: '#4fcf78', b: '#8fd3ff', w: '#ffffff', o: '#ff9f43', v: '#9c7bff', n: '#4a5bb5', s: '#ffd9c0', t: '#2fc4b2' };
+  const N = 12, CS = 22, B = 34, S = N * CS, LW = S + 2 * B, M = B / 2, PL = LW - B, LAP = 4 * PL, SPEED = LAP / 8, MAXB = 5, GAP = 70, TIME = 75;
+  const SPR = [
+    { bg: 'b', rows: ['............', '............', '..rrr..rrr..', '.rpprrrrrrr.', '.rpprrrrrrr.', '.rrrrrrrrrr.', '..rrrrrrrr..', '...rrrrrr...', '....rrrr....', '.....rr.....', '............', '............'] },
+    { bg: 's', rows: ['............', '....pppp....', '...pppppp...', '..ppyyyypp..', '..ppyyyypp..', '...pppppp...', '....pppp....', '.....gg.....', '...g.gg.g...', '....gggg....', '.....gg.....', 'gggggggggggg'] },
+    { bg: 'n', rows: ['............', '.....yy.....', '.....yy.....', '....yyyy....', 'yyyyyyyyyyyy', '.yyyyyyyyyy.', '..yyyyyyyy..', '...yyyyyy...', '...yyyyyy...', '..yyy..yyy..', '..yy....yy..', '............'] },
+  ];
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+  function newImage() {
+    if (Math.random() < 0.6) { const s = pick(SPR); return s.rows.map((r) => [...r].map((ch) => (ch === '.' ? s.bg : ch))); }
+    const cols = shuffle(['r', 'p', 'y', 'g', 'v', 'o', 't', 'w']).slice(0, 4), bg = pick(['b', 's', 'n']);
+    return Array.from({ length: N }, () => { const half = Array.from({ length: N / 2 }, () => (Math.random() < 0.38 ? bg : pick(cols))); return half.concat([...half].reverse()); });
+  }
+
+  function makeShooters(g) {
+    const cnt = {};
+    g.flat().forEach((c) => { cnt[c] = (cnt[c] || 0) + 1; });
+    const out = [];
+    for (const [c, n] of Object.entries(cnt)) {
+      const k = Math.max(1, Math.round(n / 16)); let left = n;
+      for (let i = 0; i < k - 1; i++) { let a = Math.round((left / (k - i)) * (0.7 + Math.random() * 0.6)); a = Math.min(Math.max(a, 1), left - (k - i - 1)); out.push({ c, ammo: a }); left -= a; }
+      out.push({ c, ammo: left });
+    }
+    return shuffle(out).map((s) => Object.assign(s, { state: 'wait', p: 0, last: 0 }));
+  }
+
+  const css = `
+.gamebtn{position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:9;width:58px;height:58px;border-radius:50%;font-size:28px;background:linear-gradient(145deg,var(--accent),var(--accent2));box-shadow:0 10px 24px rgba(232,87,125,.4);color:#fff}
+.gamebtn:active{transform:scale(.92)}
+.install{bottom:calc(env(safe-area-inset-bottom,0px) + 84px)!important}
+#game{position:fixed;inset:0;z-index:40;overflow-y:auto;background-color:var(--bgc);background-image:linear-gradient(170deg,var(--bg1),var(--bg2));padding:calc(env(safe-area-inset-top,0px) + 10px) 16px calc(env(safe-area-inset-bottom,0px) + 18px);display:flex;flex-direction:column;align-items:center;color:var(--text);touch-action:manipulation}
+#game[hidden]{display:none}
+.g-top{width:100%;max-width:380px;display:flex;align-items:center;justify-content:space-between}
+.g-top button{width:38px;height:38px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);font-size:16px;color:var(--accent)}
+.g-title{font:italic 700 22px "Fraunces",Georgia,serif}.g-cnt{min-width:58px;text-align:center;font-weight:800;color:var(--accent);background:var(--card);padding:8px 10px;border-radius:99px;box-shadow:var(--shadow)}
+.g-cnt.bad{animation:gshake .3s}@keyframes gshake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.g-prog{width:100%;max-width:380px;height:8px;border-radius:9px;background:var(--soft);margin:12px 0;overflow:hidden}.g-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}
+#gCv{display:block;border-radius:26px;background:var(--card);box-shadow:var(--shadow)}
+.g-hint{margin:12px 0 10px;font-size:12.5px;color:var(--muted);font-weight:700;text-align:center;max-width:320px}
+.g-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;width:100%;max-width:380px;margin-bottom:26px}
+.sh{height:62px;border-radius:20px;position:relative;color:#fff;font-weight:800;font-size:19px;text-shadow:0 1px 3px rgba(0,0,0,.35);box-shadow:inset 0 -6px 0 rgba(0,0,0,.14),inset 0 4px 0 rgba(255,255,255,.35),0 6px 14px rgba(0,0,0,.14);transition:transform .1s,opacity .2s}
+.sh:active{transform:scale(.92)}.sh.out{opacity:.25;pointer-events:none}.sh.done{visibility:hidden}
+.g-msg{position:fixed;inset:0;z-index:5;background:rgba(30,10,20,.55);display:flex;align-items:center;justify-content:center}.g-msg[hidden]{display:none}
+.g-msg>div{background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:28px;padding:26px 24px;text-align:center;box-shadow:var(--shadow);max-width:290px;border:1px solid var(--sep)}
+.g-msg h3{margin:0 0 6px;font-size:26px}.g-msg p{margin:0 0 16px;color:var(--muted);font-weight:700}
+.g-msg button{margin:4px;padding:11px 18px;border-radius:99px;font-weight:800;background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff}.g-msg button+button{background:var(--soft);color:var(--accent)}
+.sh::before{content:"";position:absolute;top:-6px;left:50%;width:22px;height:9px;margin-left:-11px;border-radius:7px 7px 0 0;background:inherit;filter:brightness(.82)}
+.g-msg>div{animation:gin .38s cubic-bezier(.2,1.25,.4,1)}@keyframes gin{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
+.g-love{margin:auto 0 4px;transition:opacity .9s,transform .9s;text-align:center;font:italic 700 16px/1.5 "Fraunces",Georgia,serif;color:var(--accent);padding:13px 22px;border-radius:22px;background:var(--card);box-shadow:var(--shadow);max-width:340px}
+.g-love span{display:inline-block;animation:gbeat 1.6s ease-in-out infinite}@keyframes gbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.28)}28%{transform:scale(1)}42%{transform:scale(1.2)}}
+.g-love.gone{opacity:0;transform:translateY(14px);pointer-events:none}
+.g-stats{width:100%;max-width:380px;display:flex;justify-content:space-between;margin-top:12px}
+.g-pill{font-weight:800;font-size:15px;padding:7px 14px;border-radius:99px;background:var(--card);box-shadow:var(--shadow);color:var(--text);font-variant-numeric:tabular-nums}
+.g-pill.bump{animation:gbump .35s ease-out}@keyframes gbump{40%{transform:scale(1.22);color:var(--accent)}}
+.g-pill.low{color:#ff3b30;animation:glow 1s ease-in-out infinite}@keyframes glow{50%{transform:scale(1.08)}}
+.g-msg .g-sc{font-weight:800;color:var(--text);margin-top:-6px}
+@media(prefers-reduced-motion:reduce){.g-love span,.g-msg>div{animation:none}}`;
+
+  let ui = null, st = null, raf = 0, dpr = 1, scale = 1, ctx = null;
+  let score = 0, disp = 0, shown = -1;
+  try { score = disp = parseInt(localStorage.getItem('iuc-game-score'), 10) || 0; } catch (e) { /* kayıt yok */ }
+  const fmt = (n) => Math.round(n).toLocaleString('tr-TR');
+  function addScore(n) {
+    const before = score; score = Math.max(0, score + n);
+    try { localStorage.setItem('iuc-game-score', String(score)); } catch (e) { /* yoksay */ }
+    if (n > 0) { ui.score.classList.remove('bump'); void ui.score.offsetWidth; ui.score.classList.add('bump'); }
+    return score - before;
+  }
+  function paintScore(dt) {
+    disp += (score - disp) * Math.min(1, dt * 7); if (Math.abs(score - disp) < 0.5) disp = score;
+    const v = Math.round(disp); if (v !== shown) { shown = v; ui.score.querySelector('b').textContent = fmt(v); }
+  }
+  function paintTime() {
+    const t = Math.max(0, Math.ceil(st.time));
+    if (t === st.tshown) return;
+    st.tshown = t; ui.time.querySelector('b').textContent = Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0');
+    ui.time.classList[st.started && t <= 10 ? 'add' : 'remove']('low');
+  }
+
+  function build() {
+    if (ui) return;
+    const sty = document.createElement('style'); sty.textContent = css; document.head.appendChild(sty);
+    const btn = document.createElement('button'); btn.className = 'gamebtn'; btn.type = 'button'; btn.setAttribute('aria-label', 'Oyun'); btn.textContent = '🎮';
+    document.body.appendChild(btn);
+    const root = document.createElement('div'); root.id = 'game'; root.hidden = true;
+    root.innerHTML = '<div class="g-top"><button id="gClose" type="button" aria-label="Kapat">✕</button><div class="g-title">Pixel Patlat</div><div class="g-cnt" id="gCnt">0/5</div></div>' +
+      '<div class="g-stats"><div class="g-pill" id="gScore">⭐ <b>0</b></div><div class="g-pill" id="gTime">⏱ <b>1:15</b></div></div><div class="g-prog"><i id="gProg"></i></div><canvas id="gCv"></canvas>' +
+      '<p class="g-hint">Bir patlatıcıya dokun, bantta dönerken kendi renginin pikselini vurur. Süre ilk dokunuşta başlar.</p><div class="g-grid" id="gGrid"></div>' + '<p class="g-love">Canın sıkılmasın sevgilim,<br>bu oyunu seviyorsun <span>❤</span></p>' +
+      '<div class="g-msg" id="gMsg" hidden><div><h3 id="gT"></h3><p id="gP"></p><p class="g-sc" id="gP2"></p><button id="gAgain" type="button">Yeni resim</button><button id="gQuit" type="button">Kapat</button></div></div>';
+    document.body.appendChild(root);
+    ui = { btn, root, cv: root.querySelector('#gCv'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), love: root.querySelector('.g-love') };
+    ctx = ui.cv.getContext('2d');
+    btn.onclick = open;
+    root.querySelector('#gClose').onclick = close; root.querySelector('#gQuit').onclick = close;
+    root.querySelector('#gAgain').onclick = start;
+  }
+
+  function open() {
+    ui.love.classList.remove('gone'); clearTimeout(ui.loveT); ui.loveT = setTimeout(() => ui.love.classList.add('gone'), 15000);
+    disp = score; shown = -1;
+    ui.root.hidden = false; document.body.style.overflow = 'hidden';
+    const w = Math.min(window.innerWidth - 32, 360); dpr = Math.min(window.devicePixelRatio || 1, 2); scale = w / LW;
+    ui.cv.style.width = w + 'px'; ui.cv.style.height = w + 'px'; ui.cv.width = Math.round(w * dpr); ui.cv.height = Math.round(w * dpr);
+    if (!st || st.over) start(); else loop();
+    paintScore(0);
+  }
+  function close() { ui.root.hidden = true; document.body.style.overflow = ''; cancelAnimationFrame(raf); }
+
+  function start() {
+    const g = newImage();
+    st = { g, total: g.flat().length, left: g.flat().length, sh: makeShooters(g), belt: [], queue: [], shots: [], pops: [], parts: [], clock: 0, lastShotC: 0, time: TIME, started: false, floats: [], cnt: {}, t: performance.now(), over: false };
+    g.flat().forEach((c) => { st.cnt[c] = (st.cnt[c] || 0) + 1; });
+    ui.msg.hidden = true; ui.grid.replaceChildren();
+    st.sh.forEach((s) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'sh'; b.style.background = C[s.c];
+      b.innerHTML = '<b>' + s.ammo + '</b>'; b.onclick = () => launch(s); s.el = b; ui.grid.appendChild(b);
+    });
+    hud(); paintTime(); cancelAnimationFrame(raf); loop();
+  }
+
+  function launch(s) {
+    if (st.over || s.state !== 'wait') return;
+    if (st.belt.length + st.queue.length >= MAXB) { ui.cnt.classList.remove('bad'); void ui.cnt.offsetWidth; ui.cnt.classList.add('bad'); return; }
+    st.started = true; s.state = 'queued'; s.el.classList.add('out'); st.queue.push(s); hud();
+  }
+
+  function hud() {
+    ui.cnt.textContent = (st.belt.length + st.queue.length) + '/' + MAXB;
+    ui.prog.style.width = Math.round(((st.total - st.left) / st.total) * 100) + '%';
+  }
+
+  function pos(p) {
+    const side = Math.floor(p / PL), t = p % PL;
+    if (side === 0) return { side, x: M + t, y: M };
+    if (side === 1) return { side, x: LW - M, y: M + t };
+    if (side === 2) return { side, x: LW - M - t, y: LW - M };
+    return { side: 3, x: M, y: LW - M - t };
+  }
+
+  function target(side, x, y) {
+    const g = st.g, c = Math.floor((x - B) / CS), r = Math.floor((y - B) / CS);
+    if (side % 2 === 0) {
+      if (c < 0 || c >= N) return null;
+      if (side === 0) { for (let i = 0; i < N; i++) if (g[i][c]) return [i, c]; } else { for (let i = N - 1; i >= 0; i--) if (g[i][c]) return [i, c]; }
+    } else {
+      if (r < 0 || r >= N) return null;
+      if (side === 1) { for (let j = N - 1; j >= 0; j--) if (g[r][j]) return [r, j]; } else { for (let j = 0; j < N; j++) if (g[r][j]) return [r, j]; }
+    }
+    return null;
+  }
+
+  function step(dt, now) {
+    st.clock += dt;
+    if (st.started) { st.time -= dt; if (st.time <= 0) { st.time = 0; return end('time'); } }
+    if (st.queue.length && !st.belt.some((s) => s.p < 40)) { const s = st.queue.shift(); s.state = 'belt'; s.p = 0; st.belt.push(s); hud(); }
+    for (const s of [...st.belt]) {
+      s.p += SPEED * dt;
+      if (s.p >= LAP) { st.belt.splice(st.belt.indexOf(s), 1); s.state = 'wait'; s.el.classList.remove('out'); hud(); continue; }
+      const ps = pos(s.p);
+      if (s.ammo > 0 && now - s.last > GAP) {
+        const t = target(ps.side, ps.x, ps.y);
+        if (t && st.g[t[0]][t[1]] === s.c) {
+          st.g[t[0]][t[1]] = null; st.left--; s.ammo--; s.last = now; st.lastShotC = st.clock; s.pulse = now; burst(t[0], t[1], s.c, now);
+          if (--st.cnt[s.c] === 0) colorDone(t, now);
+          st.shots.push({ x1: ps.x, y1: ps.y, x2: B + t[1] * CS + CS / 2, y2: B + t[0] * CS + CS / 2, at: now, c: s.c });
+          s.el.querySelector('b').textContent = s.ammo;
+          if (s.ammo === 0) { st.belt.splice(st.belt.indexOf(s), 1); s.state = 'done'; s.el.classList.add('done'); }
+          hud();
+        }
+      }
+    }
+    st.shots = st.shots.filter((b) => now - b.at < 110);
+    if (st.left === 0) return end('win');
+    if (st.belt.length + st.queue.length >= MAXB && st.clock - st.lastShotC > 12) end('stuck');
+  }
+
+  const REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  function burst(r, c, col, now) {
+    const x = B + c * CS + CS / 2, y = B + r * CS + CS / 2;
+    st.pops.push({ x, y, col, at: now });
+    for (let i = 0; i < (REDUCE ? 2 : 6); i++) {
+      const a = Math.random() * 6.283, v = 60 + Math.random() * 90;
+      st.parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 40, s: 2.5 + Math.random() * 3, col, life: 0.45 + Math.random() * 0.25, age: 0 });
+    }
+    if (st.parts.length > 220) st.parts.splice(0, st.parts.length - 220);
+  }
+
+  function confetti() {
+    const cols = ['#ff5a7a', '#ffb3c7', '#ffd54a', '#4fcf78', '#8fd3ff', '#9c7bff'];
+    for (let i = 0; i < (REDUCE ? 20 : 70); i++) {
+      const a = -Math.PI / 2 + (Math.random() - 0.5) * 2.4, v = 140 + Math.random() * 220;
+      st.parts.push({ x: LW / 2, y: LW * 0.55, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: 4 + Math.random() * 4, col: pick(cols), life: 1.2 + Math.random() * 0.8, age: 0, heart: Math.random() < 0.35, g: 380 });
+    }
+  }
+
+  function updateParts(dt) {
+    for (const p of st.parts) { p.age += dt; p.vy += (p.g || 260) * dt; p.x += p.vx * dt; p.y += p.vy * dt; }
+    st.parts = st.parts.filter((p) => p.age < p.life);
+  }
+
+  function colorDone(t, now) {
+    addScore(50);
+    st.floats.push({ x: B + t[1] * CS + CS / 2, y: B + t[0] * CS, text: '+50', at: now });
+  }
+
+  function end(kind) {
+    st.over = true;
+    const win = kind === 'win';
+    if (win) {
+      const bonus = Math.round(st.time) * 2, d = addScore(200 + bonus);
+      ui.t.textContent = 'Harikasın sevgilim! 🎉';
+      ui.p.textContent = 'Bölüm 200 + süre bonusu ' + bonus + ' = +' + d + ' puan';
+      ui.p2.textContent = 'Toplam: ⭐ ' + fmt(score);
+      confetti();
+    } else {
+      const d = addScore(-100);
+      ui.t.textContent = kind === 'time' ? 'Süre doldu ⏰' : 'Sıkıştın 💔';
+      ui.p.textContent = d < 0 ? '−' + Math.abs(d) + ' puan' : 'Puanın zaten sıfırdı';
+      ui.p2.textContent = 'Toplam: ⭐ ' + fmt(score) + ' · Olsun, çok tatlısın 💗';
+    }
+    const me = st;
+    setTimeout(() => { if (st === me && me.over) ui.msg.hidden = false; }, win ? 700 : 0);
+  }
+
+  function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+
+  function draw(now) {
+    const k = dpr * scale; ctx.setTransform(k, 0, 0, k, 0, 0); ctx.clearRect(0, 0, LW, LW);
+    ctx.lineWidth = 24; ctx.strokeStyle = 'rgba(232,87,125,.17)'; rr(M, M, PL, PL, 24); ctx.stroke();
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+      const v = st.g[r][c]; ctx.fillStyle = v ? C[v] : 'rgba(150,120,140,.14)'; rr(B + c * CS + 1, B + r * CS + 1, CS - 2, CS - 2, 4); ctx.fill();
+    }
+    ctx.lineWidth = 3; ctx.lineCap = 'round';
+    for (const b of st.shots) { ctx.globalAlpha = 1 - (now - b.at) / 110; ctx.strokeStyle = C[b.c]; ctx.beginPath(); ctx.moveTo(b.x1, b.y1); ctx.lineTo(b.x2, b.y2); ctx.stroke(); }
+    st.pops = st.pops.filter((p) => now - p.at < 240);
+    for (const p of st.pops) {
+      const t = (now - p.at) / 240, sz = CS - 2 + 10 * t;
+      ctx.globalAlpha = (1 - t) * 0.9; ctx.fillStyle = C[p.col]; rr(p.x - sz / 2, p.y - sz / 2, sz, sz, 5); ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = '#fff'; ctx.stroke();
+    }
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const p of st.parts) {
+      ctx.globalAlpha = 1 - p.age / p.life;
+      if (p.heart) { ctx.fillStyle = p.col; ctx.font = (p.s * 3) + 'px system-ui,sans-serif'; ctx.fillText('♥', p.x, p.y); }
+      else { ctx.fillStyle = C[p.col] || p.col; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s); }
+    }
+    ctx.globalAlpha = 1; ctx.font = '800 11px system-ui,sans-serif';
+    for (const s of st.belt) {
+      const q = pos(s.p), rad = 12 + 3 * Math.max(0, 1 - (now - (s.pulse || 0)) / 120);
+      ctx.fillStyle = C[s.c]; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.arc(q.x, q.y, rad, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.strokeText(s.ammo, q.x, q.y + 1);
+      ctx.fillStyle = '#fff'; ctx.fillText(s.ammo, q.x, q.y + 1);
+    }
+    st.floats = st.floats.filter((f) => now - f.at < 900);
+    ctx.font = '800 18px system-ui,sans-serif'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(90,20,50,.55)';
+    for (const f of st.floats) {
+      const k = (now - f.at) / 900, x = Math.min(Math.max(f.x, 26), LW - 26), y = Math.max(f.y - 34 * k, 16);
+      ctx.globalAlpha = 1 - k * k; ctx.strokeText(f.text, x, y); ctx.fillStyle = '#ffd54a'; ctx.fillText(f.text, x, y);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function loop() {
+    cancelAnimationFrame(raf);
+    st.t = performance.now();
+    const tick = (now) => {
+      const dt = Math.min(0.05, (now - st.t) / 1000); st.t = now;
+      if (!st.over) step(dt, now);
+      updateParts(dt); paintScore(dt); paintTime();
+      draw(now);
+      if (!ui.root.hidden) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
 </body>
 </html>
