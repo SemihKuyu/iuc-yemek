@@ -1,5 +1,5 @@
 'use strict';
-const CACHE = 'iuc-yemek-v6';
+const CACHE = 'iuc-yemek-v7';
 const ASSETS = ['./', 'index.html', 'style.css', 'app.js', 'parse.js', 'manifest.json',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 

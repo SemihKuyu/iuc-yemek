@@ -91,7 +91,7 @@
       return;
     }
     for (const meal of m.meals) {
-      const row = el('div', 'item'), info = el('div', 'info');
+      const row = el('div', 'item'), info = el('div', 'info'); row.setAttribute('data-cat', meal.category);
       const cat = CATS.find((c) => c[0] === meal.category);
       info.append(el('div', 'cat', cat ? cat[1] : meal.category), el('div', 'name', meal.name));
       if (meal.note) info.append(el('span', 'badge', `📍 ${meal.note}`));
