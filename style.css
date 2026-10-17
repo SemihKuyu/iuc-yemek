@@ -66,3 +66,11 @@ h2 { margin: 0; font-size: 22px; font-weight: 700; }
 .install div { flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .install span { color: var(--muted); }
 .install button { width: 30px; height: 30px; border-radius: 50%; background: var(--fill); color: var(--muted); font-size: 13px; }
+
+/* ---- Kaydırma ---- */
+main, .strip { touch-action: pan-y; }
+main { min-height: 60vh; }
+.slide-l { animation: slideL .22s ease-out; }
+.slide-r { animation: slideR .22s ease-out; }
+@keyframes slideL { from { transform: translateX(36px); opacity: .2; } to { transform: none; opacity: 1; } }
+@keyframes slideR { from { transform: translateX(-36px); opacity: .2; } to { transform: none; opacity: 1; } }

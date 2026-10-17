@@ -67,6 +67,8 @@
       b.onclick = () => { selected = k; rerouted = false; render(); };
       strip.append(b);
     });
+    $('prevWeek').disabled = !weekOk(-1);
+    $('nextWeek').disabled = !weekOk(1);
   }
 
   function renderMenu() {
@@ -99,8 +101,58 @@
 
   /* ---------- Gezinme ---------- */
   const firstInWeek = (mon) => { for (let i = 0; i < 5; i++) if (menus[addDays(mon, i)]) return addDays(mon, i); return mon; };
-  $('prevWeek').onclick = () => { weekStart = addDays(weekStart, -7); selected = firstInWeek(weekStart); rerouted = false; render(); };
-  $('nextWeek').onclick = () => { weekStart = addDays(weekStart, 7); selected = firstInWeek(weekStart); rerouted = false; render(); };
+  function bounds() { const k = keys(); return k.length ? [toTime(k[0]), toTime(k[k.length - 1])] : null; }
+  function weekOk(dir) {
+    const b = bounds(); if (!b) return true;
+    const t = toTime(addDays(weekStart, 7 * dir));
+    return t + 4 * 86400000 >= b[0] && t <= b[1];
+  }
+  function stepWeek(dir) {
+    if (!weekOk(dir)) return false;
+    weekStart = addDays(weekStart, 7 * dir); selected = firstInWeek(weekStart); rerouted = false; render(); return true;
+  }
+  function stepDay(dir) {
+    const b = bounds(); if (!b) return false;
+    let n = selected;
+    do { n = addDays(n, dir); } while ([0, 6].includes(dow(n)));
+    if (toTime(n) < b[0] || toTime(n) > b[1]) return false;
+    selected = n; weekStart = mondayOf(n); rerouted = false; render(); return true;
+  }
+  $('prevWeek').onclick = () => stepWeek(-1);
+  $('nextWeek').onclick = () => stepWeek(1);
+
+  // Parmakla (veya fareyle) kaydırma
+  let swipedAt = 0;
+  document.addEventListener('click', (e) => { if (Date.now() - swipedAt < 350) { e.stopPropagation(); e.preventDefault(); } }, true);
+
+  function makeSwipeable(box, onSwipe) {
+    let x0 = 0, y0 = 0, dx = 0, dir = null, down = false;
+    const slide = (cls) => {
+      box.classList.remove('slide-l', 'slide-r'); void box.offsetWidth; box.classList.add(cls);
+    };
+    box.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      down = true; x0 = e.clientX; y0 = e.clientY; dx = 0; dir = null; box.style.transition = 'none';
+    });
+    box.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const mx = e.clientX - x0, my = e.clientY - y0;
+      if (dir === null && (Math.abs(mx) > 8 || Math.abs(my) > 8)) dir = Math.abs(mx) > Math.abs(my) * 1.2 ? 'x' : 'y';
+      if (dir === 'x') { dx = mx; box.style.transform = `translateX(${dx * 0.35}px)`; }
+    });
+    const end = () => {
+      if (!down) return;
+      down = false;
+      box.style.transition = 'transform .18s'; box.style.transform = '';
+      if (dir === 'x' && Math.abs(dx) > 8) swipedAt = Date.now();
+      if (dir === 'x' && Math.abs(dx) > 50 && onSwipe(dx < 0 ? 1 : -1)) slide(dx < 0 ? 'slide-l' : 'slide-r');
+      dir = null;
+    };
+    box.addEventListener('pointerup', end);
+    box.addEventListener('pointercancel', end);
+  }
+  makeSwipeable(document.querySelector('main'), stepDay);   // menü alanı: gün gün
+  makeSwipeable($('strip'), stepWeek);                       // gün şeridi: hafta hafta
   $('bannerBtn').onclick = () => { selected = istanbulNow().key; weekStart = mondayOf(selected); rerouted = false; render(); };
 
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
