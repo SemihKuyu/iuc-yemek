@@ -11,7 +11,7 @@
   const SRC = 'data/menu.txt';
   const LS = { data: 'iuc-menu-text', hint: 'iuc-install-dismissed' };
 
-  let menus = {}, updated = null, rawText = null, selected = null, weekStart = null, rerouted = false;
+  let loading = true, loadInfo = '', menus = {}, updated = null, rawText = null, selected = null, weekStart = null, rerouted = false;
 
   const pad = (n) => String(n).padStart(2, '0');
   const toKey = (t) => { const d = new Date(t); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`; };
@@ -71,6 +71,14 @@
     $('nextWeek').disabled = !weekOk(1);
   }
 
+  function emptyMessage() {
+    if (typeof location !== 'undefined' && location.protocol === 'file:') return 'Sayfa dosyadan açılmış, menü okunamaz. Proje klasöründe "npx serve" çalıştırıp çıkan adresi aç.';
+    if (rawText == null) return loading ? 'Yükleniyor…' : `Menü yüklenemedi (${loadInfo || 'bilinmeyen hata'}).`;
+    if (/^(<{7}|>{7})/m.test(rawText)) return 'data/menu.txt içinde Git çakışma işaretleri (<<<<<<<) var, temizlenmeli.';
+    if (!keys().length) return `menu.txt okundu ama dolu gün bulunamadı (${(rawText.match(/^\s*Tarih:/gim) || []).length} tarih satırı). Yemekleri iki noktadan sonra yaz.`;
+    return 'Bu gün için menü yayınlanmadı.';
+  }
+
   function renderMenu() {
     const m = menus[selected], list = $('list');
     list.replaceChildren();
@@ -79,7 +87,7 @@
     if (m && m.calories) $('kcal').textContent = `🔥 ${m.calories}`;
     $('empty').hidden = !!m; list.hidden = !m;
     if (!m) {
-      $('empty').textContent = keys().length ? 'Bu gün için menü yayınlanmadı.' : (rawText == null ? 'Menü yüklenemedi. İnternet bağlantını kontrol et.' : 'Henüz menü yayınlanmadı.');
+      $('empty').textContent = emptyMessage();
       return;
     }
     for (const meal of m.meals) {
@@ -96,7 +104,10 @@
     $('banner').hidden = !(rerouted && selected !== istanbulNow().key);
     $('todayLabel').textContent = longDate(istanbulNow().key);
     renderStrip(); renderMenu();
-    $('foot').textContent = updated ? 'Menü güncellendi: ' + new Date(updated).toLocaleString('tr-TR', { timeZone: TZ, day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : '';
+    const parts = [];
+    if (updated) parts.push('Menü güncellendi: ' + new Date(updated).toLocaleString('tr-TR', { timeZone: TZ, day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }));
+    if (keys().length) parts.push(`${keys().length} gün`);
+    $('foot').textContent = parts.join(' · ');
   }
 
   /* ---------- Gezinme ---------- */
@@ -126,30 +137,36 @@
   document.addEventListener('click', (e) => { if (Date.now() - swipedAt < 350) { e.stopPropagation(); e.preventDefault(); } }, true);
 
   function makeSwipeable(box, onSwipe) {
-    let x0 = 0, y0 = 0, dx = 0, dir = null, down = false;
-    const slide = (cls) => {
-      box.classList.remove('slide-l', 'slide-r'); void box.offsetWidth; box.classList.add(cls);
-    };
-    box.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      down = true; x0 = e.clientX; y0 = e.clientY; dx = 0; dir = null; box.style.transition = 'none';
-    });
-    box.addEventListener('pointermove', (e) => {
+    let x0 = 0, y0 = 0, t0 = 0, dx = 0, dir = null, down = false;
+    const slide = (cls) => { box.classList.remove('slide-l', 'slide-r'); void box.offsetWidth; box.classList.add(cls); };
+    const start = (x, y) => { down = true; x0 = x; y0 = y; t0 = Date.now(); dx = 0; dir = null; box.style.transition = 'none'; };
+    const move = (x, y, ev) => {
       if (!down) return;
-      const mx = e.clientX - x0, my = e.clientY - y0;
-      if (dir === null && (Math.abs(mx) > 8 || Math.abs(my) > 8)) dir = Math.abs(mx) > Math.abs(my) * 1.2 ? 'x' : 'y';
-      if (dir === 'x') { dx = mx; box.style.transform = `translateX(${dx * 0.35}px)`; }
-    });
+      const mx = x - x0, my = y - y0;
+      if (dir === null && (Math.abs(mx) > 6 || Math.abs(my) > 6)) dir = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+      if (dir === 'x') {
+        dx = mx; box.style.transform = `translateX(${dx * 0.35}px)`;
+        if (ev && ev.cancelable) ev.preventDefault(); // yatay harekette sayfa kaymasın
+      }
+    };
     const end = () => {
       if (!down) return;
       down = false;
       box.style.transition = 'transform .18s'; box.style.transform = '';
+      const fast = Math.abs(dx) > 25 && Math.abs(dx) / Math.max(1, Date.now() - t0) > 0.4; // hızlı fiske
       if (dir === 'x' && Math.abs(dx) > 8) swipedAt = Date.now();
-      if (dir === 'x' && Math.abs(dx) > 50 && onSwipe(dx < 0 ? 1 : -1)) slide(dx < 0 ? 'slide-l' : 'slide-r');
+      if (dir === 'x' && (Math.abs(dx) > 45 || fast) && onSwipe(dx < 0 ? 1 : -1)) slide(dx < 0 ? 'slide-l' : 'slide-r');
       dir = null;
     };
-    box.addEventListener('pointerup', end);
-    box.addEventListener('pointercancel', end);
+    // Dokunmatik ekran
+    box.addEventListener('touchstart', (e) => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY); else down = false; }, { passive: true });
+    box.addEventListener('touchmove', (e) => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
+    box.addEventListener('touchend', end);
+    box.addEventListener('touchcancel', end);
+    // Fare (bilgisayarda denemek için)
+    box.addEventListener('mousedown', (e) => { if (e.button === 0) start(e.clientX, e.clientY); });
+    document.addEventListener('mousemove', (e) => move(e.clientX, e.clientY));
+    document.addEventListener('mouseup', end);
   }
   makeSwipeable(document.querySelector('main'), stepDay);   // menü alanı: gün gün
   makeSwipeable($('strip'), stepWeek);                       // gün şeridi: hafta hafta
@@ -178,16 +195,23 @@
     // 2) Güncel dosya (SW: önce ağ, çevrimdışıysa önbellek)
     try {
       const res = await fetch(SRC, { cache: 'no-store' });
-      if (!res.ok) throw new Error(res.status);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       const text = await res.text();
       const modified = res.headers.get('last-modified') ? new Date(res.headers.get('last-modified')).toISOString() : (c && c.modified) || null;
       if (!c || c.text !== text) {
         store(() => localStorage.setItem(LS.data, JSON.stringify({ text, modified })));
         apply(text, modified, !c);
       } else if (modified !== c.modified) { updated = modified; render(); }
-    } catch { /* çevrimdışı: kayıtlı kopya gösteriliyor */ }
+    } catch (e) { loadInfo = (e && e.message) || String(e); }
+    loading = false; render();
   }
 
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator) {
+    // Yeni sürüm devreye girince sayfayı bir kez yenile (ilk kurulumda yenileme yok)
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
   load();
 })();
