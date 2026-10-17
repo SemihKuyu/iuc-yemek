@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9f43"/><stop offset="1" stop-color="#ee5a24"/></linearGradient></defs>
+  <rect width="512" height="512" fill="url(#g)"/>
+  <g fill="#fff">
+    <!-- çatal -->
+    <rect x="150" y="96" width="22" height="120" rx="11"/><rect x="195" y="96" width="22" height="120" rx="11"/><rect x="240" y="96" width="22" height="120" rx="11"/>
+    <path d="M150 190h112v22c0 38-22 62-40 70v134a28 28 0 0 1-56 0V282c-18-8-16-32-16-70z"/>
+    <!-- kaşık -->
+    <ellipse cx="362" cy="170" rx="58" ry="82"/>
+    <rect x="334" y="236" width="56" height="190" rx="28"/>
+  </g>
+</svg>

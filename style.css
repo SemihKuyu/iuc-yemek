@@ -1,0 +1,68 @@
+:root {
+  --bg: #f2f2f7; --card: #fff; --text: #000; --muted: #6c6c70; --sep: rgba(60,60,67,.18);
+  --accent: #ee5a24; --accent-soft: rgba(238,90,36,.12); --fill: rgba(120,120,128,.12);
+  --banner: #fff3cd; --banner-text: #7a5b00;
+  --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #000; --card: #1c1c1e; --text: #fff; --muted: #98989f; --sep: rgba(84,84,88,.6);
+    --accent: #ff7a45; --accent-soft: rgba(255,122,69,.18); --fill: rgba(120,120,128,.24);
+    --banner: #3a2f0b; --banner-text: #ffd966; }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 17px/1.35 -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  padding: var(--sat) 0 calc(var(--sab) + 90px); min-height: 100vh;
+}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+[hidden] { display: none !important; }
+
+.banner { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 8px 12px 0;
+  padding: 10px 14px; border-radius: 12px; background: var(--banner); color: var(--banner-text); font-size: 14px; font-weight: 500; }
+.banner button { color: var(--accent); font-weight: 600; white-space: nowrap; }
+
+.top { padding: 12px 16px 6px; }
+.title-row { display: flex; align-items: baseline; justify-content: space-between; }
+h1 { font-size: 34px; letter-spacing: .3px; margin: 0; font-weight: 700; }
+.sub { color: var(--muted); font-size: 15px; }
+
+.week { display: flex; align-items: center; gap: 2px; margin-top: 10px; }
+.arrow { width: 28px; height: 44px; font-size: 30px; line-height: 1; color: var(--accent); }
+.arrow:disabled { opacity: .25; }
+.strip { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.day { display: flex; flex-direction: column; align-items: center; padding: 8px 0 7px; border-radius: 14px;
+  transition: background .15s, transform .1s; position: relative; }
+.day:active { transform: scale(.95); }
+.day small { font-size: 12px; color: var(--muted); font-weight: 500; }
+.day b { font-size: 20px; font-weight: 600; }
+.day.empty-day { opacity: .45; }
+.day.today b { color: var(--accent); }
+.day.sel { background: var(--accent); }
+.day.sel small, .day.sel b { color: #fff; }
+.day.today:not(.sel)::after { content: ""; position: absolute; bottom: 2px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+
+main { padding: 0 16px; }
+.day-head { display: flex; align-items: center; justify-content: space-between; margin: 18px 4px 8px; gap: 8px; }
+h2 { margin: 0; font-size: 22px; font-weight: 700; }
+.pill { background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 14px; padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+
+.group { background: var(--card); border-radius: 14px; overflow: hidden; }
+.item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; position: relative; }
+.item + .item::before { content: ""; position: absolute; top: 0; left: 64px; right: 0; border-top: .5px solid var(--sep); }
+.ico { width: 40px; height: 40px; flex: none; border-radius: 10px; background: var(--fill); display: grid; place-items: center; font-size: 22px; }
+.info { min-width: 0; flex: 1; }
+.cat { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-weight: 600; }
+.name { font-size: 17px; font-weight: 500; overflow-wrap: anywhere; }
+.badge { display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 6px; }
+
+.empty { text-align: center; color: var(--muted); padding: 40px 0; }
+.foot { text-align: center; color: var(--muted); font-size: 12px; margin: 18px 0 0; }
+
+.install { position: fixed; left: 12px; right: 12px; bottom: calc(var(--sab) + 10px); z-index: 10; display: flex; gap: 10px; align-items: center;
+  padding: 12px 14px; border-radius: 16px; background: var(--card); box-shadow: 0 6px 24px rgba(0,0,0,.18); border: .5px solid var(--sep); font-size: 14px; }
+.install div { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.install span { color: var(--muted); }
+.install button { width: 30px; height: 30px; border-radius: 50%; background: var(--fill); color: var(--muted); font-size: 13px; }

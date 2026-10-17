@@ -1,0 +1,171 @@
+# NASIL DOLDURULUR: Her gün için aşağıdaki boş alanları doldur. İki noktadan (:) sonrasına yaz.
+# Boş bıraktığın alanlar ve hiç doldurmadığın günler uygulamada görünmez.
+# '#' ile başlayan satırlar yok sayılır.
+#
+# DOLU ÖRNEK:
+#   Tarih: 19.10.2026
+#   Çorba: Mercimek Çorbası
+#   Ana Yemek: Orman Kebabı (Bahçeköy Yerleşkesi)
+#   Yan Yemek: Pirinç Pilavı
+#   Ek: Ayran
+#   Kalori: 1120
+#
+# - Parantez içine yazdığın şey yemeğin altında küçük bir not olarak görünür.
+# - Bir kategoride birden fazla yemek varsa o satırı kopyalayıp alt alta yaz.
+#   (örnek: iki tane "Yan Yemek:" satırı)
+# - Kalori kısmına sadece sayıyı yazman yeterli.
+
+Tarih: 19.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 20.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 21.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 22.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 23.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 26.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 27.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 28.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 29.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 30.10.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 02.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 03.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 04.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 05.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 06.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 09.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 10.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 11.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 12.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 13.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 16.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+
+Tarih: 17.11.2026
+Çorba: 
+Ana Yemek: 
+Yan Yemek: 
+Ek: 
+Kalori: 
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>İÜC Yemek</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="İÜC Yemek">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="banner" class="banner" hidden>
+  <span id="bannerText"></span>
+  <button id="bannerBtn" type="button">Bugünü gör</button>
+</div>
+
+<header class="top">
+  <div class="title-row">
+    <h1>Yemek Listesi</h1>
+    <span id="todayLabel" class="sub"></span>
+  </div>
+  <div class="week">
+    <button id="prevWeek" class="arrow" type="button" aria-label="Önceki hafta">‹</button>
+    <div id="strip" class="strip" role="tablist"></div>
+    <button id="nextWeek" class="arrow" type="button" aria-label="Sonraki hafta">›</button>
+  </div>
+</header>
+
+<main>
+  <div class="day-head">
+    <h2 id="dayTitle"></h2>
+    <span id="kcal" class="pill" hidden></span>
+  </div>
+  <div id="list" class="group" aria-live="polite"></div>
+  <div id="empty" class="empty" hidden></div>
+  <footer id="foot" class="foot"></footer>
+</main>
+
+<aside id="install" class="install" hidden>
+  <div><strong>Ana Ekrana Ekle</strong><span>Tam ekran kullanmak için <b>Paylaş</b> <i>⎙</i> → <b>Ana Ekrana Ekle</b>’ye dokunun.</span></div>
+  <button id="installClose" type="button" aria-label="Kapat">✕</button>
+</aside>
+<script src="parse.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
