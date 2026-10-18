@@ -1,6 +1,6 @@
 'use strict';
-const CACHE = 'iuc-yemek-v7';
-const ASSETS = ['./', 'index.html', 'style.css', 'app.js', 'parse.js', 'manifest.json',
+const CACHE = 'iuc-yemek-v12';
+const ASSETS = ['./', 'index.html', 'style.css', 'app.js', 'parse.js', 'game.js', 'manifest.json',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {
