@@ -3,7 +3,14 @@
 (() => {
   const C = { r: '#ff5a7a', p: '#ffb3c7', y: '#ffd54a', g: '#4fcf78', b: '#8fd3ff', w: '#ffffff', o: '#ff9f43', v: '#9c7bff', n: '#4a5bb5', s: '#ffd9c0', t: '#2fc4b2' };
   const N = 16, CS = 16, B = 34, S = N * CS, LW = S + 2 * B, M = B / 2, PL = LW - B, LAP = 4 * PL, GAP = 85, SLOTS = 5;
+<<<<<<< HEAD
   const CONTINUE_COST = 5000;
+=======
+<<<<<<< Updated upstream
+=======
+  const CONTINUE_COST = 5000;
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
   const SPR = [
     { bg: 'b', rows: ['............', '............', '..rrr..rrr..', '.rpprrrrrrr.', '.rpprrrrrrr.', '.rrrrrrrrrr.', '..rrrrrrrr..', '...rrrrrr...', '....rrrr....', '.....rr.....', '............', '............'] },
     { bg: 's', rows: ['............', '....pppp....', '...pppppp...', '..ppyyyypp..', '..ppyyyypp..', '...pppppp...', '....pppp....', '.....gg.....', '...g.gg.g...', '....gggg....', '.....gg.....', 'gggggggggggg'] },
@@ -181,13 +188,45 @@
     try { if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(pattern); } catch (e) { /* desteklenmeyen cihaz */ }
   }
   let audio = null;
+<<<<<<< HEAD
   let audioResume = null;
+=======
+<<<<<<< Updated upstream
+=======
+  let audioResume = null;
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
   function prepareAudio() {
     if (typeof window === 'undefined') return null;
     const Audio = window.AudioContext || window.webkitAudioContext;
     if (!Audio) return null;
     try {
       if (!audio) audio = new Audio();
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+      if (audio.state === 'suspended') audio.resume().catch(() => {});
+      return audio;
+    } catch (e) { return null; }
+  }
+  function playSound(kind) {
+    if (muted || typeof window === 'undefined') return;
+    if (!prepareAudio()) return;
+    try {
+      const now = audio.currentTime, presets = {
+        hit: [620, 0.055, 'sine'], combo: [880, 0.13, 'triangle'], power: [740, 0.2, 'sine'],
+        fever: [1046, 0.32, 'triangle'], error: [190, 0.2, 'sawtooth'], end: [523, 0.38, 'triangle'],
+      };
+      const [freq, duration, wave] = presets[kind] || presets.hit;
+      const osc = audio.createOscillator(), gain = audio.createGain();
+      osc.type = wave; osc.frequency.setValueAtTime(freq, now);
+      if (kind === 'combo' || kind === 'fever' || kind === 'end') osc.frequency.exponentialRampToValueAtTime(freq * 1.45, now + duration);
+      gain.gain.setValueAtTime(0.0001, now); gain.gain.exponentialRampToValueAtTime(kind === 'error' ? 0.12 : 0.08, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      osc.connect(gain); gain.connect(audio.destination); osc.start(now); osc.stop(now + duration + 0.02);
+    } catch (e) { /* ses kullanılamıyor */ }
+=======
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
       return audio;
     } catch (e) {
       console.warn('Oyun sesi başlatılamadı.', e);
@@ -230,6 +269,10 @@
     };
     if (audio && audio.state === 'running') play(audio);
     else resumeAudio().then(play);
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
   }
   function toast(t) {
     if (!ui) return;
@@ -373,11 +416,27 @@
       '<section class="g-bottom"><div class="g-slots" id="gSlots"><span>BEKLEME</span><i></i><i></i><i></i><i></i><i></i></div><div class="g-grid" id="gGrid"></div></section>' +
       '<div class="g-intro" id="gIntro" hidden><div class="g-intro-card"><small>🎯 TUR GÖREVİ</small><b id="gMissionText"></b><span id="gMissionTarget"></span></div></div>' +
       '<div class="g-combo-pop" id="gComboPop" aria-live="polite"></div>' +
+<<<<<<< HEAD
       '<div class="g-msg" id="gMsg" hidden><div><h3 id="gT"></h3><p id="gP"></p><p class="g-sc" id="gP2"></p><p class="g-summary" id="gSummary"></p><button class="g-continue" id="gContinue" type="button" hidden>⭐ 5.000 puanla devam et</button><button id="gAgain" type="button">Yeni resim</button><button id="gQuit" type="button">Kapat</button></div></div>' +
       '<div class="g-shop" id="gShop" hidden><div class="g-top"><button id="gShopBack" type="button" aria-label="Geri">←</button><div class="g-title">Mağaza</div><div class="g-cnt" id="gShopScore">0</div></div><p class="g-hint" id="gShopHint"></p><div class="g-prog"><i id="gXp"></i></div><div class="g-skins" id="gSkins"></div></div>' +
       '<div class="g-toast" id="gToast" role="status" aria-live="polite"></div><div class="g-fx" id="gFx" aria-hidden="true"></div>';
     document.body.appendChild(root);
     ui = { btn, root, cv: root.querySelector('#gCv'), board: root.querySelector('.g-board'), boardHead: root.querySelector('.g-board-head'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), summary: root.querySelector('#gSummary'), continue: root.querySelector('#gContinue'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), title: root.querySelector('#gTitle'), shop: root.querySelector('#gShop'), skins: root.querySelector('#gSkins'), sscore: root.querySelector('#gShopScore'), shint: root.querySelector('#gShopHint'), xp: root.querySelector('#gXp'), slots: root.querySelector('#gSlots'), toast: root.querySelector('#gToast'), fx: root.querySelector('#gFx'), combo: root.querySelector('#gCombo'), comboPop: root.querySelector('#gComboPop'), intro: root.querySelector('#gIntro'), missionText: root.querySelector('#gMissionText'), missionTarget: root.querySelector('#gMissionTarget'), buffLabel: root.querySelector('#gBuffLabel'), mute: root.querySelector('#gMute') };
+=======
+<<<<<<< Updated upstream
+      '<div class="g-msg" id="gMsg" hidden><div><h3 id="gT"></h3><p id="gP"></p><p class="g-sc" id="gP2"></p><p class="g-summary" id="gSummary"></p><button id="gAgain" type="button">Yeni resim</button><button id="gQuit" type="button">Kapat</button></div></div>' +
+      '<div class="g-shop" id="gShop" hidden><div class="g-top"><button id="gShopBack" type="button" aria-label="Geri">←</button><div class="g-title">Mağaza</div><div class="g-cnt" id="gShopScore">0</div></div><p class="g-hint" id="gShopHint"></p><div class="g-prog"><i id="gXp"></i></div><div class="g-skins" id="gSkins"></div></div>' +
+      '<div class="g-toast" id="gToast" role="status" aria-live="polite"></div><div class="g-fx" id="gFx" aria-hidden="true"></div>';
+    document.body.appendChild(root);
+    ui = { btn, root, cv: root.querySelector('#gCv'), board: root.querySelector('.g-board'), boardHead: root.querySelector('.g-board-head'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), summary: root.querySelector('#gSummary'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), title: root.querySelector('#gTitle'), shop: root.querySelector('#gShop'), skins: root.querySelector('#gSkins'), sscore: root.querySelector('#gShopScore'), shint: root.querySelector('#gShopHint'), xp: root.querySelector('#gXp'), slots: root.querySelector('#gSlots'), toast: root.querySelector('#gToast'), fx: root.querySelector('#gFx'), combo: root.querySelector('#gCombo'), comboPop: root.querySelector('#gComboPop'), intro: root.querySelector('#gIntro'), missionText: root.querySelector('#gMissionText'), missionTarget: root.querySelector('#gMissionTarget'), buffLabel: root.querySelector('#gBuffLabel'), mute: root.querySelector('#gMute') };
+=======
+      '<div class="g-msg" id="gMsg" hidden><div><h3 id="gT"></h3><p id="gP"></p><p class="g-sc" id="gP2"></p><p class="g-summary" id="gSummary"></p><button class="g-continue" id="gContinue" type="button" hidden>⭐ 5.000 puanla devam et</button><button id="gAgain" type="button">Yeni resim</button><button id="gQuit" type="button">Kapat</button></div></div>' +
+      '<div class="g-shop" id="gShop" hidden><div class="g-top"><button id="gShopBack" type="button" aria-label="Geri">←</button><div class="g-title">Mağaza</div><div class="g-cnt" id="gShopScore">0</div></div><p class="g-hint" id="gShopHint"></p><div class="g-prog"><i id="gXp"></i></div><div class="g-skins" id="gSkins"></div></div>' +
+      '<div class="g-toast" id="gToast" role="status" aria-live="polite"></div><div class="g-fx" id="gFx" aria-hidden="true"></div>';
+    document.body.appendChild(root);
+    ui = { btn, root, cv: root.querySelector('#gCv'), board: root.querySelector('.g-board'), boardHead: root.querySelector('.g-board-head'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), summary: root.querySelector('#gSummary'), continue: root.querySelector('#gContinue'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), title: root.querySelector('#gTitle'), shop: root.querySelector('#gShop'), skins: root.querySelector('#gSkins'), sscore: root.querySelector('#gShopScore'), shint: root.querySelector('#gShopHint'), xp: root.querySelector('#gXp'), slots: root.querySelector('#gSlots'), toast: root.querySelector('#gToast'), fx: root.querySelector('#gFx'), combo: root.querySelector('#gCombo'), comboPop: root.querySelector('#gComboPop'), intro: root.querySelector('#gIntro'), missionText: root.querySelector('#gMissionText'), missionTarget: root.querySelector('#gMissionTarget'), buffLabel: root.querySelector('#gBuffLabel'), mute: root.querySelector('#gMute') };
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     ctx = ui.cv.getContext('2d');
     btn.onclick = open;
     root.querySelector('#gClose').onclick = close; root.querySelector('#gQuit').onclick = close;
@@ -393,7 +452,15 @@
 
   function updateCanvasSize() {
     if (!ui || ui.root.hidden || !ui.board) return;
+<<<<<<< HEAD
     const availableWidth = Math.min(window.innerWidth - 24, ui.board.clientWidth, 500);
+=======
+<<<<<<< Updated upstream
+    const availableWidth = Math.min(window.innerWidth - 24, ui.board.clientWidth, 360);
+=======
+    const availableWidth = Math.min(window.innerWidth - 24, ui.board.clientWidth, 500);
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     const availableHeight = Math.max(1, ui.board.clientHeight - ui.boardHead.offsetHeight - 6);
     const w = Math.max(1, Math.floor(Math.min(availableWidth, availableHeight)));
     dpr = Math.min(window.devicePixelRatio || 1, 2); scale = w / LW;
@@ -449,7 +516,15 @@
   function start() {
     const level = lv0(), g = newImage(level + 1), limit = Math.max(30, 50 - 2 * level), dish = featuredDish();
     const baseSpeed = LAP / (6.6 - Math.min(1.8, 0.25 * level));
+<<<<<<< HEAD
     st = { g, total: g.flat().length, left: g.flat().length, sh: makeShooters(g), belt: [], docking: [], launching: [], queue: [], shots: [], pops: [], parts: [], drops: [], clock: 0, elapsed: 0, lastShotC: 0, time: limit, phase: 0, jam: false, jamLeft: 0, jshown: 0, max: 4, speed: baseSpeed, baseSpeed, started: false, ready: false, floats: [], cnt: {}, t: performance.now(), over: false, level, runScore: 0, combo: 0, comboAt: -10, maxCombo: 0, feverCharge: 0, feverUntil: 0, feverActivations: 0, coffeeUntil: 0, magnetUntil: 0, shield: false, coffees: 0, specials: 0, hazards: 0, nextDrop: 2 + Math.random() * 2, dish, mission: Object.assign(makeMission(dish), { progress: 0, done: false }) };
+=======
+<<<<<<< Updated upstream
+    st = { g, total: g.flat().length, left: g.flat().length, sh: makeShooters(g), belt: [], queue: [], shots: [], pops: [], parts: [], drops: [], clock: 0, elapsed: 0, lastShotC: 0, time: limit, phase: 0, jam: false, jamLeft: 0, jshown: 0, max: 4, speed: baseSpeed, baseSpeed, started: false, ready: false, floats: [], cnt: {}, t: performance.now(), over: false, level, runScore: 0, combo: 0, comboAt: -10, maxCombo: 0, feverCharge: 0, feverUntil: 0, feverActivations: 0, coffeeUntil: 0, magnetUntil: 0, shield: false, coffees: 0, specials: 0, hazards: 0, nextDrop: 2 + Math.random() * 2, dish, mission: Object.assign(makeMission(dish), { progress: 0, done: false }) };
+=======
+    st = { g, total: g.flat().length, left: g.flat().length, sh: makeShooters(g), belt: [], docking: [], launching: [], queue: [], shots: [], pops: [], parts: [], drops: [], clock: 0, elapsed: 0, lastShotC: 0, time: limit, phase: 0, jam: false, jamLeft: 0, jshown: 0, max: 4, speed: baseSpeed, baseSpeed, started: false, ready: false, floats: [], cnt: {}, t: performance.now(), over: false, level, runScore: 0, combo: 0, comboAt: -10, maxCombo: 0, feverCharge: 0, feverUntil: 0, feverActivations: 0, coffeeUntil: 0, magnetUntil: 0, shield: false, coffees: 0, specials: 0, hazards: 0, nextDrop: 2 + Math.random() * 2, dish, mission: Object.assign(makeMission(dish), { progress: 0, done: false }) };
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     g.flat().forEach((c) => { st.cnt[c] = (st.cnt[c] || 0) + 1; });
     ui.msg.hidden = true; ui.intro.hidden = false; ui.intro.classList.remove('leaving'); ui.root.classList.remove('fever', 'g-shake'); ui.grid.replaceChildren();
     ui.missionText.textContent = st.mission.text;
@@ -478,6 +553,17 @@
 
   function launch(s) {
     if (st.over || !st.ready || (s.state !== 'wait' && s.state !== 'parked')) return;
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+    if (st.belt.length + st.queue.length >= st.max) {
+      ui.cnt.classList.remove('bad'); void ui.cnt.offsetWidth; ui.cnt.classList.add('bad');
+      playSound('error'); vibrate(22); return;
+    }
+    if (!muted) prepareAudio();
+    st.started = true; s.state = 'queued'; s.el.classList.remove('parked'); s.el.classList.add('out'); st.queue.push(s); hud();
+=======
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     if (st.belt.length + st.queue.length + st.docking.length + st.launching.length >= st.max) {
       ui.cnt.classList.remove('bad'); void ui.cnt.offsetWidth; ui.cnt.classList.add('bad');
       playSound('error'); vibrate(22); return;
@@ -523,6 +609,10 @@
     return animation.finished.catch((error) => {
       if (error.name !== 'AbortError') console.warn('Atıcı animasyonu tamamlanamadı.', error);
     }).finally(() => ghost.remove());
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
   }
 
   function hud() {
@@ -678,6 +768,11 @@
         }
       }
     }
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     for (const dock of [...st.docking]) {
       if (now - dock.at < 260) continue;
       st.docking.splice(st.docking.indexOf(dock), 1);
@@ -687,6 +782,10 @@
       hud();
       if (parkedCount() >= SLOTS) return end('stuck');
     }
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     updateDrops(dt, now);
     st.shots = st.shots.filter((b) => now - b.at < 110);
     if (st.left === 0) return end('win');
@@ -725,9 +824,19 @@
   }
 
   function end(kind) {
+<<<<<<< HEAD
     st.scoreAtEnd = score;
     st.over = true; st.jam = false; clearTimeout(ui.introTimer); ui.intro.hidden = true; ui.root.classList.remove('fever'); hud();
     ui.continue.hidden = kind !== 'stuck';
+=======
+<<<<<<< Updated upstream
+    st.over = true; st.jam = false; clearTimeout(ui.introTimer); ui.intro.hidden = true; ui.root.classList.remove('fever'); hud();
+=======
+    st.scoreAtEnd = score;
+    st.over = true; st.jam = false; clearTimeout(ui.introTimer); ui.intro.hidden = true; ui.root.classList.remove('fever'); hud();
+    ui.continue.hidden = kind !== 'stuck';
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     const win = kind === 'win';
     if (win) {
       addXp(20);
@@ -742,7 +851,14 @@
       ui.p.textContent = d < 0 ? '−' + Math.abs(d) + ' puan' : 'Puanın zaten sıfırdı';
       ui.p2.textContent = 'Toplam: ⭐ ' + fmt(score) + ' · Olsun, çok tatlısın 💗';
     }
+<<<<<<< HEAD
     ui.continue.hidden = kind !== 'stuck' || st.scoreAtEnd < CONTINUE_COST;
+=======
+<<<<<<< Updated upstream
+=======
+    ui.continue.hidden = kind !== 'stuck' || st.scoreAtEnd < CONTINUE_COST;
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
     highScore = Math.max(highScore, st.runScore);
     ui.summary.textContent = `Bu tur: ${fmt(st.runScore)} puan · Rekor: ${fmt(highScore)} · En iyi kombo: ${st.maxCombo} · Kahve: ${st.coffees} · Özel yemek: ${st.specials} · Fever: ${st.feverActivations} · Rozet: ${achievements.length}`;
     saveXp(true); saveStats(true); playSound('end');
@@ -880,3 +996,4 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
+

@@ -65,13 +65,36 @@ body #game{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-hei
 #game .g-top .g-pill{min-width:0;padding:6px 8px;border-radius:12px;font-size:12px;white-space:nowrap}
 #game .g-top .g-pill.bump{animation:gbump .35s ease-out}
 #game .g-mute,#game .g-shop-button{display:grid;place-items:center;padding:0}
+<<<<<<< HEAD
 #game .g-board{width:100%;max-width:500px;min-width:0;min-height:0;display:grid;grid-template-rows:25px minmax(0,1fr);justify-items:center;align-items:start;gap:2px}
+=======
+<<<<<<< Updated upstream
+#game .g-board{width:100%;max-width:500px;min-width:0;min-height:0;display:grid;grid-template-rows:25px minmax(0,1fr);justify-items:center;align-items:center;gap:2px}
+=======
+#game .g-board{width:100%;max-width:500px;min-width:0;min-height:0;display:grid;grid-template-rows:25px minmax(0,1fr);justify-items:center;align-items:start;gap:2px}
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
 #game .g-board-head{width:100%;height:25px;display:flex;align-items:center;gap:8px}
 #game .g-cnt{min-width:46px;padding:4px 7px;border-radius:99px;font-size:11px}
 #game .g-prog{flex:1;width:auto;max-width:none;height:6px;margin:0}
 #game .g-level{min-width:31px;text-align:center;font-size:11px;font-weight:900;color:var(--accent)}
 #game .g-level.hot{color:#ff3b30}
 #game .g-buff-label{min-width:0;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;font-size:10px;font-weight:800;color:var(--muted)}
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+#game #gCv{width:min(100%,360px);height:auto;max-height:100%;aspect-ratio:1;object-fit:contain;align-self:center;border-radius:22px;touch-action:none}
+#game .g-bottom{width:100%;max-width:500px;min-width:0;display:grid;grid-template-rows:22px auto;gap:3px;align-self:end}
+#game .g-slots{height:22px;width:100%;max-width:none;margin:0;gap:6px}
+#game .g-slots span{font-size:9px;letter-spacing:.35px}
+#game .g-slots i{width:26px;height:15px;border-radius:6px;border-width:1px}
+#game .g-grid{width:100%;max-width:none;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(2,52px);grid-auto-rows:52px;align-content:start;gap:4px 8px;margin:0;padding:0}
+#game .sh{width:100%;height:52px;min-width:0;touch-action:manipulation;transition:transform .24s ease,opacity .2s ease}
+#game .sh.out{opacity:.2}
+#game .sh.done{visibility:visible;opacity:0;transform:translateY(-18px) scale(.88);pointer-events:none}
+#game .sh svg{width:48px;height:48px;margin:auto}
+=======
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
 #game #gCv{width:min(100%,500px);height:auto;max-height:100%;aspect-ratio:1;object-fit:contain;align-self:start;border-radius:22px;touch-action:none}
 #game .g-bottom{width:100%;max-width:500px;min-width:0;display:grid;grid-template-rows:22px auto;gap:3px;align-self:end;margin-bottom:56px}
 #game .g-slots{height:22px;width:100%;max-width:none;margin:0;gap:6px}
@@ -82,6 +105,10 @@ body #game{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-hei
 #game .sh.out{opacity:.2}
 #game .sh.done{visibility:visible;opacity:0;transform:translateY(-18px) scale(.88);pointer-events:none}
 #game .sh svg{width:66px;height:66px;margin:auto}
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
 #game .sh b{font-size:15px}
 #game .sh i{top:0;right:calc(50% - 27px)}
 #game .g-combo-pop{position:fixed;left:50%;top:50%;z-index:56;width:min(92vw,440px);padding:14px 10px;text-align:center;pointer-events:none;opacity:0;visibility:hidden;transform:translate(-50%,-50%) scale(.35) rotate(-7deg);color:#fff;font-size:clamp(34px,10vw,60px);font-weight:1000;line-height:1.05;letter-spacing:-1.5px;text-shadow:0 4px 0 #b83e6c,0 8px 20px rgba(70,15,44,.65),0 0 28px #ffcf56}
@@ -104,8 +131,18 @@ body #game{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-hei
 #game .g-shop .g-top{display:flex;justify-content:space-between;height:42px}
 #game .g-shop .g-top button{width:36px;height:36px}
 #game.g-shake{animation:gshake-screen .22s linear}
+<<<<<<< HEAD
 @media(max-width:360px){#game{padding-left:8px;padding-right:8px}#game .g-top{grid-template-columns:30px minmax(35px,1fr) auto auto 30px 30px;gap:3px}#game .g-top button{width:30px;height:30px}#game .g-grid{grid-template-rows:62px 62px;grid-auto-rows:62px;gap:3px 5px}#game .sh{height:62px}#game .sh svg{width:58px;height:58px}}
 @media(max-height:700px){#game{grid-template-rows:42px minmax(0,1fr) auto;gap:2px;padding-top:calc(env(safe-area-inset-top,0px) + 2px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}#game .g-top{height:42px}#game .g-grid{grid-template-rows:56px 56px;grid-auto-rows:56px;gap:2px 5px}#game .sh{height:56px}#game .sh svg{width:52px;height:52px}}
+=======
+<<<<<<< Updated upstream
+@media(max-width:360px){#game{padding-left:8px;padding-right:8px}#game .g-top{grid-template-columns:30px minmax(35px,1fr) auto auto 30px 30px;gap:3px}#game .g-top button{width:30px;height:30px}#game .g-grid{grid-template-rows:48px 48px;grid-auto-rows:48px;gap:2px 5px}#game .sh{height:48px}#game .sh svg{width:43px;height:43px}}
+@media(max-height:700px){#game{grid-template-rows:42px minmax(0,1fr) auto;gap:2px;padding-top:calc(env(safe-area-inset-top,0px) + 2px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}#game .g-top{height:42px}#game .g-grid{grid-template-rows:44px 44px;grid-auto-rows:44px;gap:2px 5px}#game .sh{height:44px}#game .sh svg{width:40px;height:40px}}
+=======
+@media(max-width:360px){#game{padding-left:8px;padding-right:8px}#game .g-top{grid-template-columns:30px minmax(35px,1fr) auto auto 30px 30px;gap:3px}#game .g-top button{width:30px;height:30px}#game .g-grid{grid-template-rows:62px 62px;grid-auto-rows:62px;gap:3px 5px}#game .sh{height:62px}#game .sh svg{width:58px;height:58px}}
+@media(max-height:700px){#game{grid-template-rows:42px minmax(0,1fr) auto;gap:2px;padding-top:calc(env(safe-area-inset-top,0px) + 2px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}#game .g-top{height:42px}#game .g-grid{grid-template-rows:56px 56px;grid-auto-rows:56px;gap:2px 5px}#game .sh{height:56px}#game .sh svg{width:52px;height:52px}}
+>>>>>>> Stashed changes
+>>>>>>> fc723473901e8715a5127a8bcec09b89e7524ad7
 @media(prefers-reduced-motion:reduce){#game .g-combo-pop.show,#game .g-intro-card{animation:none}#game .g-combo-pop.show{opacity:1;transform:translate(-50%,-50%)}}
 #game.fever::after{content:"";position:fixed;inset:0;z-index:50;border:5px solid rgba(255,213,74,.85);box-shadow:inset 0 0 34px rgba(255,122,156,.65),0 0 34px rgba(255,213,74,.7);pointer-events:none;animation:gfeveredge .65s ease-in-out infinite alternate}
 @keyframes gfeveredge{to{opacity:.45;filter:hue-rotate(45deg)}}
