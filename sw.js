@@ -1,9 +1,13 @@
 'use strict';
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 const CACHE = 'iuc-yemek-v17';
 =======
 const CACHE = 'iuc-yemek-v13';
 >>>>>>> 1869a00d6b497d87030d66a496c1a41b75df101c
+=======
+const CACHE = 'iuc-yemek-v21';
+>>>>>>> Stashed changes
 const ASSETS = ['./', 'index.html', 'style.css', 'app.js', 'parse.js', 'game.js', 'manifest.json',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 

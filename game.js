@@ -3,6 +3,10 @@
 (() => {
   const C = { r: '#ff5a7a', p: '#ffb3c7', y: '#ffd54a', g: '#4fcf78', b: '#8fd3ff', w: '#ffffff', o: '#ff9f43', v: '#9c7bff', n: '#4a5bb5', s: '#ffd9c0', t: '#2fc4b2' };
   const N = 16, CS = 16, B = 34, S = N * CS, LW = S + 2 * B, M = B / 2, PL = LW - B, LAP = 4 * PL, GAP = 85, SLOTS = 5;
+<<<<<<< Updated upstream
+=======
+  const CONTINUE_COST = 5000;
+>>>>>>> Stashed changes
   const SPR = [
     { bg: 'b', rows: ['............', '............', '..rrr..rrr..', '.rpprrrrrrr.', '.rpprrrrrrr.', '.rrrrrrrrrr.', '..rrrrrrrr..', '...rrrrrr...', '....rrrr....', '.....rr.....', '............', '............'] },
     { bg: 's', rows: ['............', '....pppp....', '...pppppp...', '..ppyyyypp..', '..ppyyyypp..', '...pppppp...', '....pppp....', '.....gg.....', '...g.gg.g...', '....gggg....', '.....gg.....', 'gggggggggggg'] },
@@ -79,10 +83,13 @@
 .g-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;width:100%;max-width:380px;margin-bottom:26px}
 .sh{height:64px;position:relative;background:none;color:#fff;font-weight:800;font-size:18px;transition:transform .1s,opacity .2s}
 .sh:active{transform:scale(.92)}.sh.out{opacity:.25;pointer-events:none}.sh.done{visibility:hidden}
+.sh.launching{opacity:0;pointer-events:none}
+.g-launch-ghost{position:fixed;z-index:1000;display:grid;place-items:center;margin:0;padding:0;border:0;border-radius:18px;background:var(--card);box-shadow:0 12px 30px rgba(90,20,50,.24);pointer-events:none;will-change:transform,opacity}
 .g-msg{position:fixed;inset:0;z-index:5;background:rgba(30,10,20,.55);display:flex;align-items:center;justify-content:center}.g-msg[hidden]{display:none}
 .g-msg>div{background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:28px;padding:26px 24px;text-align:center;box-shadow:var(--shadow);max-width:290px;border:1px solid var(--sep)}
 .g-msg h3{margin:0 0 6px;font-size:26px}.g-msg p{margin:0 0 16px;color:var(--muted);font-weight:700}
 .g-msg button{margin:4px;padding:11px 18px;border-radius:99px;font-weight:800;background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff}.g-msg button+button{background:var(--soft);color:var(--accent)}
+.g-msg .g-continue{width:100%;margin:8px 0 10px;padding:13px 14px;background:linear-gradient(145deg,#ffd54a,#ff9f43);color:#482d12;box-shadow:0 7px 18px rgba(255,159,67,.3);font-weight:900}
 .g-msg>div{animation:gin .38s cubic-bezier(.2,1.25,.4,1)}@keyframes gin{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
 .g-love{margin:auto 0 4px;transition:opacity .9s,transform .9s;text-align:center;font:italic 700 16px/1.5 "Fraunces",Georgia,serif;color:var(--accent);padding:13px 22px;border-radius:22px;background:var(--card);box-shadow:var(--shadow);max-width:340px}
 .g-love span{display:inline-block;animation:gbeat 1.6s ease-in-out infinite}@keyframes gbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.28)}28%{transform:scale(1)}42%{transform:scale(1.2)}}
@@ -177,12 +184,17 @@
     try { if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(pattern); } catch (e) { /* desteklenmeyen cihaz */ }
   }
   let audio = null;
+<<<<<<< Updated upstream
+=======
+  let audioResume = null;
+>>>>>>> Stashed changes
   function prepareAudio() {
     if (typeof window === 'undefined') return null;
     const Audio = window.AudioContext || window.webkitAudioContext;
     if (!Audio) return null;
     try {
       if (!audio) audio = new Audio();
+<<<<<<< Updated upstream
       if (audio.state === 'suspended') audio.resume().catch(() => {});
       return audio;
     } catch (e) { return null; }
@@ -203,6 +215,50 @@
       gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
       osc.connect(gain); gain.connect(audio.destination); osc.start(now); osc.stop(now + duration + 0.02);
     } catch (e) { /* ses kullanılamıyor */ }
+=======
+      return audio;
+    } catch (e) {
+      console.warn('Oyun sesi başlatılamadı.', e);
+      return null;
+    }
+  }
+  function resumeAudio() {
+    const context = prepareAudio();
+    if (!context || context.state === 'running') return Promise.resolve(context);
+    if (!audioResume) {
+      audioResume = context.resume()
+        .then(() => context)
+        .catch((e) => {
+          console.warn('Oyun sesi etkinleştirilemedi.', e);
+          return null;
+        })
+        .finally(() => { audioResume = null; });
+    }
+    return audioResume;
+  }
+  function playSound(kind) {
+    if (muted || typeof window === 'undefined') return;
+    const play = (context) => {
+      if (!context || muted || context.state !== 'running') return;
+      try {
+        const now = context.currentTime, presets = {
+          hit: [620, 0.055, 'sine'], combo: [880, 0.13, 'triangle'], power: [740, 0.2, 'sine'],
+          fever: [1046, 0.32, 'triangle'], error: [190, 0.2, 'sawtooth'], end: [523, 0.38, 'triangle'],
+        };
+        const [freq, duration, wave] = presets[kind] || presets.hit;
+        const osc = context.createOscillator(), gain = context.createGain();
+        osc.type = wave; osc.frequency.setValueAtTime(freq, now);
+        if (kind === 'combo' || kind === 'fever' || kind === 'end') osc.frequency.exponentialRampToValueAtTime(freq * 1.45, now + duration);
+        gain.gain.setValueAtTime(0.0001, now); gain.gain.exponentialRampToValueAtTime(kind === 'error' ? 0.12 : 0.08, now + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        osc.connect(gain); gain.connect(context.destination); osc.start(now); osc.stop(now + duration + 0.02);
+      } catch (e) {
+        console.warn('Oyun efekti çalınamadı.', e);
+      }
+    };
+    if (audio && audio.state === 'running') play(audio);
+    else resumeAudio().then(play);
+>>>>>>> Stashed changes
   }
   function toast(t) {
     if (!ui) return;
@@ -346,15 +402,24 @@
       '<section class="g-bottom"><div class="g-slots" id="gSlots"><span>BEKLEME</span><i></i><i></i><i></i><i></i><i></i></div><div class="g-grid" id="gGrid"></div></section>' +
       '<div class="g-intro" id="gIntro" hidden><div class="g-intro-card"><small>🎯 TUR GÖREVİ</small><b id="gMissionText"></b><span id="gMissionTarget"></span></div></div>' +
       '<div class="g-combo-pop" id="gComboPop" aria-live="polite"></div>' +
+<<<<<<< Updated upstream
       '<div class="g-msg" id="gMsg" hidden><div><h3 id="gT"></h3><p id="gP"></p><p class="g-sc" id="gP2"></p><p class="g-summary" id="gSummary"></p><button id="gAgain" type="button">Yeni resim</button><button id="gQuit" type="button">Kapat</button></div></div>' +
       '<div class="g-shop" id="gShop" hidden><div class="g-top"><button id="gShopBack" type="button" aria-label="Geri">←</button><div class="g-title">Mağaza</div><div class="g-cnt" id="gShopScore">0</div></div><p class="g-hint" id="gShopHint"></p><div class="g-prog"><i id="gXp"></i></div><div class="g-skins" id="gSkins"></div></div>' +
       '<div class="g-toast" id="gToast" role="status" aria-live="polite"></div><div class="g-fx" id="gFx" aria-hidden="true"></div>';
     document.body.appendChild(root);
     ui = { btn, root, cv: root.querySelector('#gCv'), board: root.querySelector('.g-board'), boardHead: root.querySelector('.g-board-head'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), summary: root.querySelector('#gSummary'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), title: root.querySelector('#gTitle'), shop: root.querySelector('#gShop'), skins: root.querySelector('#gSkins'), sscore: root.querySelector('#gShopScore'), shint: root.querySelector('#gShopHint'), xp: root.querySelector('#gXp'), slots: root.querySelector('#gSlots'), toast: root.querySelector('#gToast'), fx: root.querySelector('#gFx'), combo: root.querySelector('#gCombo'), comboPop: root.querySelector('#gComboPop'), intro: root.querySelector('#gIntro'), missionText: root.querySelector('#gMissionText'), missionTarget: root.querySelector('#gMissionTarget'), buffLabel: root.querySelector('#gBuffLabel'), mute: root.querySelector('#gMute') };
+=======
+      '<div class="g-msg" id="gMsg" hidden><div><h3 id="gT"></h3><p id="gP"></p><p class="g-sc" id="gP2"></p><p class="g-summary" id="gSummary"></p><button class="g-continue" id="gContinue" type="button" hidden>⭐ 5.000 puanla devam et</button><button id="gAgain" type="button">Yeni resim</button><button id="gQuit" type="button">Kapat</button></div></div>' +
+      '<div class="g-shop" id="gShop" hidden><div class="g-top"><button id="gShopBack" type="button" aria-label="Geri">←</button><div class="g-title">Mağaza</div><div class="g-cnt" id="gShopScore">0</div></div><p class="g-hint" id="gShopHint"></p><div class="g-prog"><i id="gXp"></i></div><div class="g-skins" id="gSkins"></div></div>' +
+      '<div class="g-toast" id="gToast" role="status" aria-live="polite"></div><div class="g-fx" id="gFx" aria-hidden="true"></div>';
+    document.body.appendChild(root);
+    ui = { btn, root, cv: root.querySelector('#gCv'), board: root.querySelector('.g-board'), boardHead: root.querySelector('.g-board-head'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), summary: root.querySelector('#gSummary'), continue: root.querySelector('#gContinue'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), title: root.querySelector('#gTitle'), shop: root.querySelector('#gShop'), skins: root.querySelector('#gSkins'), sscore: root.querySelector('#gShopScore'), shint: root.querySelector('#gShopHint'), xp: root.querySelector('#gXp'), slots: root.querySelector('#gSlots'), toast: root.querySelector('#gToast'), fx: root.querySelector('#gFx'), combo: root.querySelector('#gCombo'), comboPop: root.querySelector('#gComboPop'), intro: root.querySelector('#gIntro'), missionText: root.querySelector('#gMissionText'), missionTarget: root.querySelector('#gMissionTarget'), buffLabel: root.querySelector('#gBuffLabel'), mute: root.querySelector('#gMute') };
+>>>>>>> Stashed changes
     ctx = ui.cv.getContext('2d');
     btn.onclick = open;
     root.querySelector('#gClose').onclick = close; root.querySelector('#gQuit').onclick = close;
     root.querySelector('#gAgain').onclick = start;
+    ui.continue.onclick = continueAfterJam;
     root.querySelector('#gShopBtn').onclick = openShop;
     root.querySelector('#gShopBack').onclick = () => { ui.shop.hidden = true; };
     ui.mute.onclick = () => { muted = !muted; try { localStorage.setItem('iuc-game-muted', muted ? '1' : '0'); } catch (e) { /* yoksay */ } updateArcadeHud(); if (!muted) playSound('power'); };
@@ -365,7 +430,11 @@
 
   function updateCanvasSize() {
     if (!ui || ui.root.hidden || !ui.board) return;
+<<<<<<< Updated upstream
     const availableWidth = Math.min(window.innerWidth - 24, ui.board.clientWidth, 360);
+=======
+    const availableWidth = Math.min(window.innerWidth - 24, ui.board.clientWidth, 500);
+>>>>>>> Stashed changes
     const availableHeight = Math.max(1, ui.board.clientHeight - ui.boardHead.offsetHeight - 6);
     const w = Math.max(1, Math.floor(Math.min(availableWidth, availableHeight)));
     dpr = Math.min(window.devicePixelRatio || 1, 2); scale = w / LW;
@@ -421,7 +490,11 @@
   function start() {
     const level = lv0(), g = newImage(level + 1), limit = Math.max(30, 50 - 2 * level), dish = featuredDish();
     const baseSpeed = LAP / (6.6 - Math.min(1.8, 0.25 * level));
+<<<<<<< Updated upstream
     st = { g, total: g.flat().length, left: g.flat().length, sh: makeShooters(g), belt: [], queue: [], shots: [], pops: [], parts: [], drops: [], clock: 0, elapsed: 0, lastShotC: 0, time: limit, phase: 0, jam: false, jamLeft: 0, jshown: 0, max: 4, speed: baseSpeed, baseSpeed, started: false, ready: false, floats: [], cnt: {}, t: performance.now(), over: false, level, runScore: 0, combo: 0, comboAt: -10, maxCombo: 0, feverCharge: 0, feverUntil: 0, feverActivations: 0, coffeeUntil: 0, magnetUntil: 0, shield: false, coffees: 0, specials: 0, hazards: 0, nextDrop: 2 + Math.random() * 2, dish, mission: Object.assign(makeMission(dish), { progress: 0, done: false }) };
+=======
+    st = { g, total: g.flat().length, left: g.flat().length, sh: makeShooters(g), belt: [], docking: [], launching: [], queue: [], shots: [], pops: [], parts: [], drops: [], clock: 0, elapsed: 0, lastShotC: 0, time: limit, phase: 0, jam: false, jamLeft: 0, jshown: 0, max: 4, speed: baseSpeed, baseSpeed, started: false, ready: false, floats: [], cnt: {}, t: performance.now(), over: false, level, runScore: 0, combo: 0, comboAt: -10, maxCombo: 0, feverCharge: 0, feverUntil: 0, feverActivations: 0, coffeeUntil: 0, magnetUntil: 0, shield: false, coffees: 0, specials: 0, hazards: 0, nextDrop: 2 + Math.random() * 2, dish, mission: Object.assign(makeMission(dish), { progress: 0, done: false }) };
+>>>>>>> Stashed changes
     g.flat().forEach((c) => { st.cnt[c] = (st.cnt[c] || 0) + 1; });
     ui.msg.hidden = true; ui.intro.hidden = false; ui.intro.classList.remove('leaving'); ui.root.classList.remove('fever', 'g-shake'); ui.grid.replaceChildren();
     ui.missionText.textContent = st.mission.text;
@@ -450,16 +523,64 @@
 
   function launch(s) {
     if (st.over || !st.ready || (s.state !== 'wait' && s.state !== 'parked')) return;
+<<<<<<< Updated upstream
     if (st.belt.length + st.queue.length >= st.max) {
       ui.cnt.classList.remove('bad'); void ui.cnt.offsetWidth; ui.cnt.classList.add('bad');
       playSound('error'); vibrate(22); return;
     }
     if (!muted) prepareAudio();
     st.started = true; s.state = 'queued'; s.el.classList.remove('parked'); s.el.classList.add('out'); st.queue.push(s); hud();
+=======
+    if (st.belt.length + st.queue.length + st.docking.length + st.launching.length >= st.max) {
+      ui.cnt.classList.remove('bad'); void ui.cnt.offsetWidth; ui.cnt.classList.add('bad');
+      playSound('error'); vibrate(22); return;
+    }
+    if (!muted) resumeAudio();
+    const game = st;
+    game.started = true; s.state = 'launching'; s.el.classList.remove('parked'); s.el.classList.add('launching');
+    game.launching.push(s); hud();
+    animateLauncher(s).then(() => {
+      game.launching.splice(game.launching.indexOf(s), 1);
+      if (st !== game || game.over || s.state !== 'launching') return;
+      s.state = 'queued'; s.el.classList.remove('launching'); s.el.classList.add('out');
+      game.queue.push(s); hud();
+    });
+  }
+
+  function animateLauncher(s) {
+    const source = s.el.getBoundingClientRect(), board = ui.cv.getBoundingClientRect();
+    const start = pos(0), unit = board.width / LW;
+    const targetX = board.left + start.x * unit, targetY = board.top + start.y * unit;
+    const ghost = s.el.cloneNode(true);
+    ghost.className = 'sh g-launch-ghost';
+    ghost.style.left = `${source.left}px`; ghost.style.top = `${source.top}px`;
+    ghost.style.width = `${source.width}px`; ghost.style.height = `${source.height}px`;
+    document.body.appendChild(ghost);
+    if (typeof ghost.animate !== 'function') {
+      ghost.remove();
+      return Promise.resolve();
+    }
+    const dx = targetX - (source.left + source.width / 2), dy = targetY - (source.top + source.height / 2);
+    let animation;
+    try {
+      animation = ghost.animate([
+        { transform: 'translate3d(0,0,0) scale(1) rotate(0deg)', opacity: 1, offset: 0 },
+        { transform: `translate3d(${dx * 0.18}px,${dy * 0.18 - 28}px,0) scale(1.12) rotate(-8deg)`, opacity: 1, offset: 0.34 },
+        { transform: `translate3d(${dx}px,${dy}px,0) scale(.3) rotate(180deg)`, opacity: 0.15, offset: 1 },
+      ], { duration: REDUCE ? 180 : 460, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
+    } catch (error) {
+      ghost.remove();
+      console.warn('Atıcı animasyonu başlatılamadı.', error);
+      return Promise.resolve();
+    }
+    return animation.finished.catch((error) => {
+      if (error.name !== 'AbortError') console.warn('Atıcı animasyonu tamamlanamadı.', error);
+    }).finally(() => ghost.remove());
+>>>>>>> Stashed changes
   }
 
   function hud() {
-    ui.cnt.textContent = (st.belt.length + st.queue.length) + '/' + st.max + (st.jam ? ' ⚠' : '');
+    ui.cnt.textContent = (st.belt.length + st.queue.length + st.docking.length + st.launching.length) + '/' + st.max + (st.jam ? ' ⚠' : '');
     paintSlots();
     ui.cnt.classList[st.jam ? 'add' : 'remove']('jam');
     ui.prog.style.width = Math.round(((st.total - st.left) / st.total) * 100) + '%';
@@ -487,6 +608,7 @@
   }
 
   function pos(p) {
+    p = (p + 3 * PL) % LAP;
     const side = Math.floor(p / PL), t = p % PL;
     if (side === 0) return { side, x: M + t, y: M };
     if (side === 1) return { side, x: LW - M, y: M + t };
@@ -590,10 +712,8 @@
       s.p += st.speed * gameDt;
       if (s.p >= LAP) {
         st.belt.splice(st.belt.indexOf(s), 1);
-        const full = parkedCount() >= SLOTS;
-        s.state = 'parked'; s.el.classList.remove('out'); s.el.classList.add('parked');
-        if (full) { hud(); return end('stuck'); }
-        hud(); continue;
+        s.state = 'docking'; st.docking.push({ shooter: s, at: now });
+        continue;
       }
       const ps = pos(s.p);
       if (s.ammo > 0 && now - s.last > GAP) {
@@ -612,6 +732,18 @@
         }
       }
     }
+<<<<<<< Updated upstream
+=======
+    for (const dock of [...st.docking]) {
+      if (now - dock.at < 260) continue;
+      st.docking.splice(st.docking.indexOf(dock), 1);
+      dock.shooter.state = 'parked';
+      dock.shooter.el.classList.remove('out');
+      dock.shooter.el.classList.add('parked');
+      hud();
+      if (parkedCount() >= SLOTS) return end('stuck');
+    }
+>>>>>>> Stashed changes
     updateDrops(dt, now);
     st.shots = st.shots.filter((b) => now - b.at < 110);
     if (st.left === 0) return end('win');
@@ -650,7 +782,13 @@
   }
 
   function end(kind) {
+<<<<<<< Updated upstream
     st.over = true; st.jam = false; clearTimeout(ui.introTimer); ui.intro.hidden = true; ui.root.classList.remove('fever'); hud();
+=======
+    st.scoreAtEnd = score;
+    st.over = true; st.jam = false; clearTimeout(ui.introTimer); ui.intro.hidden = true; ui.root.classList.remove('fever'); hud();
+    ui.continue.hidden = kind !== 'stuck';
+>>>>>>> Stashed changes
     const win = kind === 'win';
     if (win) {
       addXp(20);
@@ -665,12 +803,38 @@
       ui.p.textContent = d < 0 ? '−' + Math.abs(d) + ' puan' : 'Puanın zaten sıfırdı';
       ui.p2.textContent = 'Toplam: ⭐ ' + fmt(score) + ' · Olsun, çok tatlısın 💗';
     }
+<<<<<<< Updated upstream
+=======
+    ui.continue.hidden = kind !== 'stuck' || st.scoreAtEnd < CONTINUE_COST;
+>>>>>>> Stashed changes
     highScore = Math.max(highScore, st.runScore);
     ui.summary.textContent = `Bu tur: ${fmt(st.runScore)} puan · Rekor: ${fmt(highScore)} · En iyi kombo: ${st.maxCombo} · Kahve: ${st.coffees} · Özel yemek: ${st.specials} · Fever: ${st.feverActivations} · Rozet: ${achievements.length}`;
     saveXp(true); saveStats(true); playSound('end');
     if (win) vibrate([30, 35, 80]); else vibrate([70]);
     const me = st;
     setTimeout(() => { if (st === me && me.over) ui.msg.hidden = false; }, win ? 700 : 0);
+  }
+
+  function continueAfterJam() {
+    if (!st || !st.over || parkedCount() < SLOTS || st.scoreAtEnd < CONTINUE_COST) return;
+    addScore(100 - CONTINUE_COST);
+    for (const s of st.sh) {
+      if (s.state !== 'parked') continue;
+      s.state = 'wait';
+      s.el.classList.remove('parked', 'out', 'done');
+    }
+    st.jam = false;
+    st.over = false;
+    st.ready = true;
+    st.started = true;
+    st.t = performance.now();
+    st.queueSignature = null;
+    ui.continue.hidden = true;
+    ui.msg.hidden = true;
+    renderShooterQueue(true);
+    hud();
+    playSound('power');
+    toast('5.000 puan harcandı · Tur devam ediyor!');
   }
 
   function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
@@ -688,6 +852,24 @@
       else { ctx.moveTo(x - 4, y + 3); ctx.lineTo(x, y - 2); ctx.lineTo(x + 4, y + 3); }
     }
     ctx.stroke();
+    const socket = pos(0), sx = socket.x, sy = socket.y;
+    ctx.save();
+    ctx.globalAlpha = 0.8 + 0.2 * Math.sin(now / 420);
+    ctx.beginPath(); ctx.arc(sx, sy, 19, 0, Math.PI * 2);
+    ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(' + tint + ',.22)'; ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx, sy, 15, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,.96)'; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(' + tint + ',.8)'; ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx, sy, 9, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + tint + ',.14)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(sx, sy, 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + tint + ',.95)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(sx, sy, 1.7, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.moveTo(sx - 4, sy - 23); ctx.lineTo(sx, sy - 27); ctx.lineTo(sx + 4, sy - 23);
+    ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(' + tint + ',.85)'; ctx.stroke();
+    ctx.restore();
     for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
       const v = st.g[r][c]; ctx.fillStyle = v ? C[v] : 'rgba(150,120,140,.14)'; rr(B + c * CS + 1, B + r * CS + 1, CS - 2, CS - 2, 4); ctx.fill();
     }
@@ -723,6 +905,13 @@
       ctx.fillStyle = C[s.c]; ctx.strokeStyle = TRIMS[sk.trim].c; ctx.lineWidth = 1.7; ctx.lineJoin = 'round'; ctx.fill(path); ctx.fillStyle = grad(); ctx.fill(path); ctx.stroke(path); ctx.restore();
       ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.strokeText(s.ammo, q.x, q.y + 1);
       ctx.fillStyle = '#fff'; ctx.fillText(s.ammo, q.x, q.y + 1);
+    }
+    for (const dock of st.docking) {
+      const progress = Math.min(1, (now - dock.at) / 260), q = pos(LAP);
+      const rad = 15 * (1 - progress * 0.78), sk = SKINS[eq];
+      const path = P2[sk.shape] || (P2[sk.shape] = new Path2D(SHAPES[sk.shape].d));
+      ctx.save(); ctx.globalAlpha = 1 - progress * 0.55; ctx.translate(q.x - rad, q.y - rad); ctx.scale(rad / 12, rad / 12);
+      ctx.fillStyle = C[dock.shooter.c]; ctx.strokeStyle = TRIMS[sk.trim].c; ctx.lineWidth = 1.7; ctx.lineJoin = 'round'; ctx.fill(path); ctx.fillStyle = grad(); ctx.fill(path); ctx.stroke(path); ctx.restore();
     }
     st.floats = st.floats.filter((f) => now - f.at < 900);
     ctx.font = '800 18px system-ui,sans-serif'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(90,20,50,.55)';
