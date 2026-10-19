@@ -178,7 +178,7 @@
     return addScore(Math.round(base * combo * fever));
   }
   function vibrate(pattern) {
-    try { if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(pattern); } catch (e) { /* desteklenmeyen cihaz */ }
+    try { if (window.Haptics) window.Haptics.vibrate(pattern); else if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) { /* desteklenmeyen cihaz */ }
   }
   let audio = null;
   let audioResume = null;
@@ -365,8 +365,7 @@
   function build() {
     if (ui) return;
     const sty = document.createElement('style'); sty.textContent = css; document.head.appendChild(sty);
-    const btn = document.createElement('button'); btn.className = 'gamebtn'; btn.type = 'button'; btn.setAttribute('aria-label', 'Oyun'); btn.textContent = '🎮';
-    document.body.appendChild(btn);
+    const btn = null;
     const root = document.createElement('div'); root.id = 'game'; root.hidden = true;
     root.innerHTML = '<div class="g-top"><button id="gClose" type="button" aria-label="Kapat">✕</button><div class="g-title" id="gTitle">Seviye 1</div><div class="g-pill" id="gScore">⭐ <b>0</b></div><div class="g-pill" id="gTime">⏱ <b>0:50</b></div><button class="g-mute" id="gMute" type="button" aria-label="Sesi kapat">🔊</button><button class="g-shop-button" id="gShopBtn" type="button" aria-label="Mağaza">🛍️</button></div>' +
       '<section class="g-board"><div class="g-board-head"><span class="g-cnt" id="gCnt">0/4</span><div class="g-prog"><i id="gProg"></i></div><span class="g-level" id="gCombo">Lv 1</span><span class="g-buff-label" id="gBuffLabel"></span></div><canvas id="gCv"></canvas></section>' +
@@ -379,7 +378,7 @@
     document.body.appendChild(root);
     ui = { btn, root, cv: root.querySelector('#gCv'), board: root.querySelector('.g-board'), boardHead: root.querySelector('.g-board-head'), grid: root.querySelector('#gGrid'), cnt: root.querySelector('#gCnt'), prog: root.querySelector('#gProg'), msg: root.querySelector('#gMsg'), t: root.querySelector('#gT'), p: root.querySelector('#gP'), p2: root.querySelector('#gP2'), summary: root.querySelector('#gSummary'), continue: root.querySelector('#gContinue'), score: root.querySelector('#gScore'), time: root.querySelector('#gTime'), title: root.querySelector('#gTitle'), shop: root.querySelector('#gShop'), skins: root.querySelector('#gSkins'), sscore: root.querySelector('#gShopScore'), shint: root.querySelector('#gShopHint'), xp: root.querySelector('#gXp'), slots: root.querySelector('#gSlots'), toast: root.querySelector('#gToast'), fx: root.querySelector('#gFx'), combo: root.querySelector('#gCombo'), comboPop: root.querySelector('#gComboPop'), intro: root.querySelector('#gIntro'), missionText: root.querySelector('#gMissionText'), missionTarget: root.querySelector('#gMissionTarget'), buffLabel: root.querySelector('#gBuffLabel'), mute: root.querySelector('#gMute') };
     ctx = ui.cv.getContext('2d');
-    btn.onclick = open;
+    document.body.appendChild(ui.toast);
     root.querySelector('#gClose').onclick = close; root.querySelector('#gQuit').onclick = close;
     root.querySelector('#gAgain').onclick = start;
     ui.continue.onclick = continueAfterJam;
@@ -876,6 +875,25 @@
       if (!ui.root.hidden) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
+  }
+
+  // ---- Ortak puan sistemi: diğer oyunlar (Sudoku vb.) buradan puan/XP ekler ----
+  function externalReward(points, xpGain) {
+    const before = score; score = Math.max(0, score + points);
+    try { localStorage.setItem('iuc-game-score', String(score)); } catch (e) { /* yoksay */ }
+    const gained = score - before;
+    if (gained > 0) totalEarned += gained;
+    saveStats(true);
+    if (xpGain > 0) addXp(xpGain);
+    if (ui) { ui.score.classList.remove('bump'); void ui.score.offsetWidth; ui.score.classList.add('bump'); }
+    return gained;
+  }
+  const G = window.IUCGames;
+  if (G) {
+    G.reward = externalReward;
+    G.toast = (t) => { if (ui) toast(t); };
+    G.stats = () => { const l = lvInfo(xp); return { score, L: l.L, cur: l.cur, nxt: l.nxt }; };
+    G.register({ id: 'pixel', icon: '🎯', name: 'Pixel Patlat', desc: 'Piksel resmi doldur, kombo yap', open });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
