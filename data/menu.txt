@@ -150,85 +150,148 @@ Ek: Meşrubat - Sade Gazoz
 Kalori: 920
 
 Tarih: 02.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Mercimek Çorbası
+Ana Yemek: Bezelye Yemeği
+Yan Yemek: Arpa Şehriyeli Pirinç Pilavı
+Ek: Yoğurt
+Kalori: 860
 
 Tarih: 03.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Tarhana Çorbası
+Ana Yemek: İzmir Köfte
+Yan Yemek: Peynirli Makarna
+Ek: Mandalina
+Kalori: 920
 
 Tarih: 04.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Tel Şehriye Çorbası
+Ana Yemek: Et Sote
+Yan Yemek: Arpa Şehriye Pilavı
+Ek: Mısırlı Mevsim Salata
+Kalori: 970
 
 Tarih: 05.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Kaşarlı Domates Çorbası
+Ana Yemek: Tavuk Fajita+Lavaş
+Yan Yemek: Zeytinyağlı Barbunya
+Ek: Ayran
+Kalori: 965
 
 Tarih: 06.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Ezogelin Çorbası
+Ana Yemek: Kıymalı Ispanak
+Yan Yemek: Su Böreği
+Ek: Supangle
+Kalori: 985
 
 Tarih: 09.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Sebze Çorbası
+Ana Yemek: Nohut Yemeği
+Yan Yemek: Pirinç Pilavı
+Ek: Karışık Turşu
+Kalori: 870
 
 Tarih: 10.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Tarhana Çorbası
+Ana Yemek: Ekşili Köfte
+Yan Yemek: Yoğurtlu Mantı
+Ek: Şöbiyet
+Kalori: 1200
 
 Tarih: 11.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Mercimek Çorbası
+Ana Yemek: Mantarlı Tavuk Sote
+Yan Yemek: Mısırlı Pirinç Pilavı
+Ek: Armut
+Kalori: 880
 
 Tarih: 12.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Toyga Çorbası
+Ana Yemek: Patates Oturtma
+Yan Yemek: Zeytinyağlı Pırasa
+Ek: Şekerpare
+Kalori: 1000
 
 Tarih: 13.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Ezogelin Çorbası
+Ana Yemek: Tas Kebabı
+Yan Yemek: Gökkuşağı Pilavı
+Ek: Akdeniz Salatası
+Kalori: 995
 
 Tarih: 16.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori: 
+Çorba: Şehriye Çorbası
+Ana Yemek: Pastırmalı Kuru Fasulye
+Yan Yemek: Pirinç Pilavı
+Ek: Yoğurt
+Kalori: 920
 
 Tarih: 17.11.2026
-Çorba: 
-Ana Yemek: 
-Yan Yemek: 
-Ek: 
-Kalori:
+Çorba: Sebze Çorbası
+Ana Yemek: Kuru köfte - patates garni
+Yan Yemek: Spagetti Makarna+Ketçap,mayonez
+Ek: Revani
+Kalori: 1200
+
+Tarih: 18.11.2026
+Çorba: Ezogelin Çorbası
+Ana Yemek: Çoban Kavurma
+Yan Yemek: Nohutlu Pirinç Pilavı
+Ek: Ayran
+Kalori: 975
+
+Tarih: 19.11.2026
+Çorba: Kremalı Mantar Çorbası
+Ana Yemek: Tavuk Külbastı
+Yan Yemek: Cevizli Erişte
+Ek: Tulumba
+Kalori: 1105
+
+Tarih: 20.11.2026
+Çorba: Elvan Kız Çorbası
+Ana Yemek: Taze Fasulye Yemeği
+Yan Yemek: İçli Köfte
+Ek: Havuç Tarator
+Kalori: 865
+
+Tarih: 23.11.2026
+Çorba: Tarhana Çorbası
+Ana Yemek: Türlü Yemeği
+Yan Yemek: Yoğurtlu Mantı
+Ek: Muz
+Kalori: 970
+
+Tarih: 24.11.2026
+Çorba: Mercimek Çorbası
+Ana Yemek: Dana Kızartma
+Yan Yemek: Pirinç Pilavı
+Ek: Mevsim Salata
+Kalori: 1030
+
+Tarih: 25.11.2026
+Çorba: Kremalı Mantar Çorbası
+Ana Yemek: Tavuk şinitzel - Turşu Garni
+Yan Yemek: Soslu Makarna
+Ek: İrmik Helvası
+Kalori: 1200
+
+Tarih: 26.11.2026
+Çorba: Ezogelin Çorbası
+Ana Yemek: Kıymalı Kabak Dolma+Yoğurt
+Yan Yemek: Zeytinyağlı Kereviz
+Ek: Portakal
+Kalori: 935
+
+Tarih: 27.11.2026
+Çorba: Kaşarlı Domates Çorbası
+Ana Yemek: Rosto Köfte - Patates Garni
+Yan Yemek: Mısırlı Pirinç Pilavı
+Ek: Cacık
+Kalori: 970
+
+Tarih: 30.11.2026
+Çorba: Tavuk Suyu Çorba
+Ana Yemek: Bezelye Yemeği
+Yan Yemek: Buhara Pilavı
+Ek: Yoğurt
+Kalori: 910
